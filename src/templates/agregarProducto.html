@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agregar producto</title>
+</head>
+
+<body>
+    <h1>agregar</h1>
+
+    <!--Faltar por arreglar lo de poder ingresar una imagen pero si no ingresas una igualmente funciona-->
+
+    <form id="agregarProducto">
+        <label for="nombreProducto">Nombre del producto:</label>
+        <input type="text" name="nombreProducto" id="nombreProducto" required>
+        <br>
+        <label for="precioProducto">Precio:</label>
+        <input type="number" name="precioProducto" id="precioProducto" required>
+        <br>
+        <label for="descripcionProducto">Descripción:</label>
+        <textarea name="descripcionProducto" id="descripcionProducto" required></textarea>
+        <br>
+        <label for="imagenProducto">Imagen:</label>
+        <input type="file" name="imagenProducto" id="imagenProducto">
+        <br>
+        <button type="submit">Agregar producto</button>
+    </form>
+
+    </form>
+
+
+
+    <script src="static/assets/js/agregar.js"></script>
+</body>
+
+</html>
