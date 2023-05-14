@@ -73,5 +73,3 @@ python app.py
 Esto iniciará el servidor Flask y tu proyecto estará disponible en la dirección `http://localhost:5000`.
 
 ¡Felicidades! Has instalado y configurado correctamente el proyecto en Flask.
-
-Si tienes alguna pregunta o encuentras algún problema durante la instalación, no dudes en consultar la documentación del proyecto o buscar ayuda en la comunidad de Flask.
