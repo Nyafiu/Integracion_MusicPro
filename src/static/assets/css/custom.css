@@ -97,3 +97,8 @@ body {
 .s{
     font-size: 25px;
 }
+
+.navbar .dropdown-menu {
+    position: relative;
+    z-index: 1001;
+}
