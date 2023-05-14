@@ -64,5 +64,36 @@ Custom Css
     font-size: 22px;
     font-weight: 350;
 }
+
+.aa{
+    color: white!important;
+}
   
+.bg-dark{
+    background-color: black!important;
+}
+
+/*
+@font-face {
+    font-family: 'FaBrands';
+    src: url('assets/webfonts/font.woff') format('woff');
+    //Agrega aquí las fuentes adicionales en diferentes formatos si las tienes 
+}
   
+body {
+    font-family: 'NombreDeLaFuente', sans-serif;
+}
+*/
+
+@keyframes fade {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
+  
+.fa-fade {
+    animation: fade 1s linear infinite;
+}
+
+.s{
+    font-size: 25px;
+}
