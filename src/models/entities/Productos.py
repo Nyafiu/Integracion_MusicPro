@@ -1,8 +1,8 @@
 class Producto:
     def __init__(
-        self, IdProducto, Nombre=None, Precio=None, Descripcion=None, Imagen=None
+        self, idProductos, Nombre=None, Precio=None, Descripcion=None, Imagen=None
     ) -> None:
-        self.IdProducto = IdProducto
+        self.idProductos = idProductos
         self.Nombre = Nombre
         self.Precio = Precio
         self.Descripcion = Descripcion
@@ -10,7 +10,7 @@ class Producto:
 
     def to_json(self):
         return {
-            "IdProducto": self.IdProducto,
+            "idProductos": self.idProductos,
             "Nombre": self.Nombre,
             "Precio": self.Precio,
             "Descripcion": self.Descripcion,

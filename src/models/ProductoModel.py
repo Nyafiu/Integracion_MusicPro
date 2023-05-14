@@ -10,7 +10,7 @@ class ProductoModel:
             Productos = []
             with connection.cursor() as cursor:
                 cursor.execute(
-                    """SELECT "idProducto", "nombre", "precio", "descripcion", "imagen" FROM public.productos;"""
+                    """SELECT "idProductos", "nombre", "precio", "descripcion", "imagen" FROM public.productos;"""
                 )
                 resultset = cursor.fetchall()
 
@@ -28,7 +28,7 @@ class ProductoModel:
             connection = get_connection()
             with connection.cursor() as cursor:
                 cursor.execute(
-                    """SELECT "idProducto", "nombre", "precio", "descripcion", "imagen"
+                    """SELECT "idProductos", "nombre", "precio", "descripcion", "imagen"
                                 FROM public.productos WHERE "nombre" = %s""",
                     (nombre,),
                 )
@@ -50,10 +50,10 @@ class ProductoModel:
             with connection.cursor() as cursor:
                 cursor.execute(
                     """INSERT INTO public.productos(
-	                        "idProducto", "nombre", "precio", "descripcion", "imagen")
+	                        "idProductos", "nombre", "precio", "descripcion", "imagen")
 	                        VALUES (%s, %s, %s, %s, %s);""",
                     (
-                        Producto.IdProducto,
+                        Producto.idProductos,
                         Producto.Nombre,
                         Producto.Precio,
                         Producto.Descripcion,
@@ -68,14 +68,14 @@ class ProductoModel:
             raise Exception(ex)
 
     @classmethod
-    def delete_producto(self, nombre):
+    def delete_producto(self, idProductos):
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
                 cursor.execute(
                     """DELETE FROM public.productos
-	                            WHERE "nombre" = %s;""",
-                    (nombre,),
+	                            WHERE "idProductos" = %s;""",
+                    (idProductos,),
                 )
 
                 affected_rows = cursor.rowcount
@@ -84,6 +84,8 @@ class ProductoModel:
             return affected_rows
         except Exception as ex:
             raise Exception(ex)
+        
+
 
     @classmethod
     def update_producto(self, Producto):
@@ -93,13 +95,13 @@ class ProductoModel:
                 cursor.execute(
                     """UPDATE public.productos
 	                        SET nombre=%s, precio=%s, descripcion=%s, imagen=%s
-	                        WHERE "idProducto"=%s;""",
+	                        WHERE "idProductos"=%s;""",
                     (
                         Producto.Nombre,
                         Producto.Precio,
                         Producto.Descripcion,
                         Producto.Imagen,
-                        Producto.IdProducto,
+                        Producto.idProductos,
                     ),
                 )
                 affected_rows = cursor.rowcount

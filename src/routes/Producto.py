@@ -32,52 +32,47 @@ def add_producto():
         Nombre = request.json["nombre"]
         Precio = int(request.json["precio"])
         Descripcion = request.json["descripcion"]
-        IdProducto = uuid.uuid4()
-        producto = Producto(str(IdProducto), Nombre, Precio, Descripcion)
+        idProductos = uuid.uuid4()
+        producto = Producto(str(idProductos), Nombre, Precio, Descripcion)
 
         affected_rows = ProductoModel.add_producto(producto)
 
         if affected_rows == 1:
-            return jsonify({"id":producto.IdProducto})
+            return jsonify({"id":producto.idProductos})
         else:
             return jsonify({"Mensaje:": "fallo en la insersion"}), 500
     except Exception as ex:
         return jsonify({"Mensaje:": str(ex)}), 500
 
-
-
-
-
-
-
-
-@main.route("/delete/<nombre>", methods=["DELETE"])
-def delete_producto(nombre):
+@main.route("/delete/<idProductos>", methods=["DELETE"])
+def delete_producto(idProductos):
     try:
-        affected_rows = ProductoModel.delete_producto(nombre)
+        affected_rows = ProductoModel.delete_producto(idProductos)
 
         if affected_rows == 1:
-            return jsonify({nombre})
+            return jsonify({idProductos})
         else:
             return jsonify({"Mensaje:": "No existe"}), 500
     except Exception as ex:
         return jsonify({"Mensaje:": str(ex)}), 500
 
 
-@main.route("/update/<id>", methods=["PUT"])
-def update_producto(id):
+
+@main.route("/update/<idProductos>", methods=["PUT"])
+def update_producto(idProductos):
     try:
-        nombre = request.json["Nombre"]
-        precio = int(request.json["Precio"])
-        descripcion = request.json["Descripcion"]
-        imagen = request.json["Imagen"]
-        producto = Producto(id, nombre, precio, descripcion, imagen)
+        nombre = request.json["nombre"]
+        precio = int(request.json["precio"])
+        descripcion = request.json["descripcion"]
+        imagen = request.json["imagen"]
+        producto = Producto(idProductos, nombre, precio, descripcion, imagen)
 
         affected_rows = ProductoModel.update_producto(producto)
 
         if affected_rows == 1:
-            return jsonify({producto.IdProducto})
+            return jsonify({"mensaje": "Producto actualizado exitosamente"})
         else:
-            return jsonify({"Mensaje:": "Producto no actualizado"}), 500
+            return jsonify({"mensaje": "Producto no actualizado"}), 500
     except Exception as ex:
-        return jsonify({"Mensaje:": str(ex)}), 500
+        return jsonify({"mensaje": str(ex)}), 500
+
