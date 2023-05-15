@@ -12,6 +12,14 @@ CORS(app, resources={"*"})
 def index():
     return render_template("index.html")
 
+@app.route("/login")
+def login():
+    return render_template("loginCliente.html")
+
+@app.route("/loginAdmin")
+def loginAdmin():
+    return render_template("loginAdmin.html")
+
 
 @app.route("/about")
 def about():
