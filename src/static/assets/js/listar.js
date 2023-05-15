@@ -18,7 +18,7 @@ function renderProducto(producto) {
     <h4><h2>Descripcion:</h2>${producto.Descripcion}</h4>
     <h4><h2>Imagen:</h2>${producto.Imagen}</h4><br>
     <button class="btn-delete">eliminar</button>
-    <button class="btn-update">actualizar</button>
+    <button class="btn-update" onclick="goToTop()">actualizar</button>
 `;
     const btnDelete = productoItem.querySelector(".btn-delete");
     const btnUpdate = productoItem.querySelector(".btn-update");
@@ -75,3 +75,10 @@ async function renderProductos() {
 
 window.addEventListener("DOMContentLoaded", renderProductos);
 
+function goToTop() {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth"
+    });
+  }
