@@ -1,9 +1,5 @@
 const agregarProducto = document.querySelector('#agregarProducto')
 
-
-/*"AgregarProductos" es un evento que detecta en el formulario el boton "enviar" que es de tipo submit 
-el cual saca del formulario el nombre, precio, descripcion e imagen esto es llevado con el fetch a la api y es pasado a json
-siendo agregado a la base de datos*/
 agregarProducto.addEventListener('submit', async e => {
     e.preventDefault()
 
@@ -20,11 +16,15 @@ agregarProducto.addEventListener('submit', async e => {
             nombre,
             precio,
             descripcion,
-            
         })
     })
 
     const data = await response.json()
-    console.log(data)
 
+    if (data.error) {
+        alert("Hubo un error al agregar el producto")
+    } else {
+        alert("El producto se agregó correctamente")
+        document.getElementById("agregarProducto").reset()
+    }
 })
