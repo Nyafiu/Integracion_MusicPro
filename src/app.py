@@ -1,11 +1,28 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from config import config
 from routes import Producto
 from flask_cors import CORS
+import psycopg2
+
 
 app = Flask(__name__)
 
 CORS(app, resources={"*"})
+
+def get_productos():
+    conn = psycopg2.connect(
+        dbname="MusicPro",
+        user="postgres",
+        password="1234",
+        host="localhost",
+        port="5432"
+    )
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM productos")
+    productos = cur.fetchall()
+    cur.close()
+    conn.close()
+    return productos
 
 
 @app.route("/")
@@ -26,9 +43,10 @@ def about():
     return render_template("about.html")
 
 
-@app.route("/shop")
+@app.route('/shop')
 def shop():
-    return render_template("shop.html")
+    productos = get_productos()
+    return render_template('shop.html', productos=productos)
 
 @app.route("/agregar")
 def agregar():
