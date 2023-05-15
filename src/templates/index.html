@@ -2,16 +2,28 @@
 <html lang="en">
 
 <head>
-    <title>Zay Shop eCommerce HTML CSS Template</title>
+    <title>Music Pro</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="apple-touch-icon" href="{{ url_for('static', filename='assets/img/apple-icon.png') }}">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='assets/img/favicon.ico') }}">
-
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='assets/img/favicon.png') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/templatemo.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/custom.css') }}">
+
+    <!-- Enlace al archivo CSS de Owl Carousel -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/assets/owl.carousel.min.css">
+    <!-- Enlace al archivo JS de Owl Carousel -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
+
+    <!-- íconos de bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
 
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
@@ -26,7 +38,7 @@
             <div class="w-100 d-flex justify-content-between">
                 <div>
                     <i class="fa fa-envelope mx-2"></i>
-                    <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">info@company.com</a>
+                    <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">info@musicpro.cl</a>
                     <i class="fa fa-phone mx-2"></i>
                     <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-020-0340</a>
                 </div>
@@ -41,44 +53,48 @@
     </nav>
     <!-- Close Top Nav -->
 
-
-<!-- Header -->
-<nav class="navbar navbar-expand-lg navbar-light shadow bg-dark">
-    <div class="container d-flex justify-content-between align-items-center">
-
-        <a class="navbar-brand text-success logo h1 align-self-center" href="{{ url_for('index') }}">
-            Music Pro
+<!-- header con bootstrap -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white">
+    <div class="container-fluid">
+        <a class="navbar-brand">
+            <img src="{{ url_for('static', filename='assets/img/music_pro.png') }}" alt="Music Pro" width="80" height="80">
         </a>
-
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
-        <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
-            <div class="flex-fill">
-                <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
-                    <li class="nav-item">
-                        <a class="nav-link text-light" href="{{ url_for('index') }}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" href="{{ url_for('about') }}">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" href="{{ url_for('shop') }}">Shop</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" href="{{ url_for('contact') }}">Contact</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="navbar align-self-center d-flex">
-                <!-- Other navbar elements -->
-            </div>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Categorías
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="#">Audio</a></li>
+                        <li><a class="dropdown-item" href="#">Guitarras</a></li>
+                        <li><a class="dropdown-item" href="#">Bajos</a></li>
+                        <li><a class="dropdown-item" href="#">Baterías y percusión</a></li>
+                        <li><a class="dropdown-item" href="#">Pianos y teclados</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Sucursales</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="shop">Tienda</a>
+                </li>
+            </ul>
+            <form class="d-flex ms-auto" role="search">
+                <input class="form-control me-2" type="search" placeholder="¿Qué estás buscando?" aria-label="Search">
+                <button class="btn btn-outline-dark" type="submit">Search</button>
+            </form>
         </div>
-
     </div>
 </nav>
-<!-- Close Header -->
+
+
 
 
 
@@ -99,49 +115,95 @@
     </div>
 </div>
 
+<!-- carrusel con bootstrap-->
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="{{ url_for('static', filename='assets/img/banner_1.jpg') }}" class="d-block w-100" alt="..." height="450" width="600">
+      </div>
+      <div class="carousel-item">
+        <img src="{{ url_for('static', filename='assets/img/banner_2.jpg') }}" class="d-block w-100" alt="..." height="450" width="600">
+      </div>
+      <div class="carousel-item">
+        <img src="{{ url_for('static', filename='assets/img/banner_3.jpg') }}" class="d-block w-100" alt="..." height="450" width="600">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
 
+  <!-- banner carrusel -->
+    <div id="banner-carousel" class="owl-carousel">
+        <div class="item">
+            <div class="icon">
+                <!-- <i class="bi bi-credit-card"></i>
+                <i class="fas fa-credit-card"></i> -->
+                <i class="fab fa-cc-visa"></i>
+            </div>
+            <h2 class="lead">Cuotas sin interés</h2>
+        </div>
+        <div class="item">
+            <div class="icon">
+                <!--<i class="bi bi-truck"></i>-->
+                <i class="fas fa-truck s"></i>
+            </div>
+            <h2 class="lead">Envíos a todo Chile</h2>
+        </div>
+        <div class="item">
+            <div class="icon">
+                <!--<i class="bi bi-tag"></i>-->
+                <i class="fas fa-tag s"></i>
+            </div>
+            <h2 class="lead">Descuentos especiales</h2>
+        </div>
+    </div>
 
-
-<!-- Start Banner Hero -->
-<div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
+<!-- Start Banner Hero
+<div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
     <ol class="carousel-indicators">
         <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="0" class="active"></li>
         <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="1"></li>
         <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="2"></li>
     </ol>
     <div class="carousel-inner">
-        <!-- Carousel Item 1 -->
+
         <div class="carousel-item active">
             <div class="container">
                 <div class="row p-5">
                     <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                        <img class="img-fluid" src="{{ url_for('static', filename='assets/img/banner_img_01.jpg') }}" alt="">
+                        <img class="img-fluid" src="{{ url_for('static', filename='assets/img/banner_1.jpg') }}" alt="">
                     </div>
-                    <!-- Carousel content goes here -->
                 </div>
             </div>
         </div>
 
-        <!-- Carousel Item 2 -->
         <div class="carousel-item">
             <div class="container">
                 <div class="row p-5">
                     <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
                         <img class="img-fluid" src="{{ url_for('static', filename='assets/img/banner_img_02.jpg') }}" alt="">
                     </div>
-                    <!-- Carousel content goes here -->
                 </div>
             </div>
         </div>
 
-        <!-- Carousel Item 3 -->
         <div class="carousel-item">
             <div class="container">
                 <div class="row p-5">
                     <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
                         <img class="img-fluid" src="{{ url_for('static', filename='assets/img/banner_img_03.jpg') }}" alt="">
                     </div>
-                    <!-- Carousel content goes here -->
                 </div>
             </div>
         </div>
@@ -156,50 +218,51 @@
         <span class="visually-hidden">Next</span>
     </a>
 </div>
-<!-- End Banner Hero -->
 
-<!-- Start Categories of The Month -->
-<section class="container py-5">
-    <div class="row text-center pt-3">
-        <div class="col-lg-6 m-auto">
-            <h1 class="h1">Categories of The Month</h1>
-            <p>
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.
-            </p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="#"><img src="{{ url_for('static', filename='assets/img/category_img_01.jpg') }}" class="rounded-circle img-fluid border"></a>
-            <h5 class="text-center mt-3 mb-3">Watches</h5>
-            <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
-        </div>
-        <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="#"><img src="{{ url_for('static', filename='assets/img/category_img_02.jpg') }}" class="rounded-circle img-fluid border"></a>
-            <h2 class="h5 text-center mt-3 mb-3">Shoes</h2>
-            <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
-        </div>
-        <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="#"><img src="{{ url_for('static', filename='assets/img/category_img_03.jpg') }}" class="rounded-circle img-fluid border"></a>
-            <h2 class="h5 text-center mt-3 mb-3">Accessories</h2>
-            <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
-        </div>
-    </div>
-</section>
-<!-- End Categories of The Month -->
+End Banner Hero -->
 
+    <!-- Sección "Lo más visto" -->
+    <section class="container py-4">
+        <div class="row text-center pt-3">
+            <div class="col-lg-8 mx-auto">
+                <h1 class="h1 text-center mb-4">Lo más visto</h1>
+                <p class="lead1 text-center">
+                    Descubre los productos más populares y admirados por nuestros clientes. 
+                    Explora nuestra selección y encuentra los artículos que están capturando 
+                    la atención de los amantes de la música en todo momento
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-4 p-5">
+                <a href="#"><img src="{{ url_for('static', filename='assets/img/guitarra.jpg') }}" class="rounded-circle img-fluid border"></a>
+                <h5 class="text-center mt-3 mb-3 lead">Guitarras</h5>
+                <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
+            </div>
+            <div class="col-12 col-md-4 p-5">
+                <a href="#"><img src="{{ url_for('static', filename='assets/img/uke.jpg') }}" class="rounded-circle img-fluid border"></a>
+                <h2 class="h5 text-center mt-3 mb-3 lead">Ukeleles</h2>
+                <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
+            </div>
+            <div class="col-12 col-md-4 p-5">
+                <a href="#"><img src="{{ url_for('static', filename='assets/img/accesorios.jpg') }}" class="rounded-circle img-fluid border"></a>
+                <h2 class="h5 text-center mt-3 mb-3 lead">Accesorios</h2>
+                <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
+            </div>
+        </div>
+    </section>
+    <!-- End Categories of The Month -->
 
 
     <!-- Start Featured Product -->
     <section class="bg-dark">
         <div class="container py-5">
             <div class="row text-center py-3">
-                <div class="col-lg-6 m-auto">
-                    <h1 class="h1 text-light">Featured Product</h1>
-                    <p class="text-light">
-                        Reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                        Excepteur sint occaecat cupidatat non proident.
+                <div class="col-lg-8 m-auto">
+                    <h1 class="h1 text-light aa">Destacados</h1>
+                    <p class="text-light lead1 aa" style="font-size: 20px;">
+                        Explora nuestra selección de productos destacados y 
+                        sumérgete en el mundo de la música con estilo y calidad incomparables
                     </p>
                 </div>
             </div>
@@ -207,7 +270,7 @@
             <div class="col-12 col-md-4 mb-4">
                 <div class="card h-100">
                     <a href="shop-single.html">
-                        <img src="{{ url_for('static', filename='assets/img/feature_prod_01.jpg') }}" class="card-img-top" alt="...">
+                        <img src="{{ url_for('static', filename='assets/img/prod1.jpg') }}" class="card-img-top" alt="...">
                     </a>
                     <div class="card-body">
                         <ul class="list-unstyled d-flex justify-content-between">
@@ -220,9 +283,11 @@
                             </li>
                             <li class="text-muted text-right">$240.00</li>
                         </ul>
-                        <a href="shop-single.html" class="h2 text-decoration-none text-dark">Gym Weight</a>
+                        <a href="shop-single.html" class="h2 text-decoration-none text-dark">Fender Stratocaster Player</a>
                         <p class="card-text">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt in culpa qui officia deserunt.
+                            El inspirador sonido de una Stratocaster es uno de los fundamentos de Fender. Con su sonido clásico caracterizado 
+                            por agudos claros y vibrantes, medios contundentes y graves robustos, combinado con una articulación cristalina, 
+                            la versátil Player Stratocaster HSS está repleta de auténtico estilo y sensación Fender.
                         </p>
                         <p class="text-muted">Reviews (24)</p>
                     </div>
@@ -231,7 +296,7 @@
                 <div class="col-12 col-md-4 mb-4">
                     <div class="card h-100">
                         <a href="shop-single.html">
-                            <img src="{{ url_for('static', filename='assets/img/feature_prod_02.jpg') }}" class="card-img-top" alt="...">
+                            <img src="{{ url_for('static', filename='assets/img/piano.jpg') }}" class="card-img-top" alt="...">
                         </a>
                         <div class="card-body">
                             <ul class="list-unstyled d-flex justify-content-between">
@@ -244,9 +309,10 @@
                                 </li>
                                 <li class="text-muted text-right">$480.00</li>
                             </ul>
-                            <a href="shop-single.html" class="h2 text-decoration-none text-dark">Cloud Nike Shoes</a>
+                            <a href="shop-single.html" class="h2 text-decoration-none text-dark">Piano digital Casio AP-270 - 88 teclas</a>
                             <p class="card-text">
-                                Aenean gravida dignissim finibus. Nullam ipsum diam, posuere vitae pharetra sed, commodo ullamcorper.
+                                Nuevo modelo con polifonía aumentada, panel rediseñado y nuevos sonidos. 
+                                Piano digital de mueble de 88 teclas contrapesadas con tacto marfil y ébano.
                             </p>
                             <p class="text-muted">Reviews (48)</p>
                         </div>
@@ -255,7 +321,7 @@
                 <div class="col-12 col-md-4 mb-4">
                     <div class="card h-100">
                         <a href="shop-single.html">
-                            <img src="{{ url_for('static', filename='assets/img/feature_prod_03.jpg') }}" class="card-img-top" alt="...">
+                            <img src="{{ url_for('static', filename='assets/img/bateria.jpg') }}" class="card-img-top" alt="...">
                         </a>
                         <div class="card-body">
                             <ul class="list-unstyled d-flex justify-content-between">
@@ -268,9 +334,11 @@
                                 </li>
                                 <li class="text-muted text-right">$360.00</li>
                             </ul>
-                            <a href="shop-single.html" class="h2 text-decoration-none text-dark">Summer Addides Shoes</a>
+                            <a href="shop-single.html" class="h2 text-decoration-none text-dark">Batería Electrónica Avatar</a>
                             <p class="card-text">
-                                Curabitur ac mi sit amet diam luctus porta. Phasellus pulvinar sagittis diam, et scelerisque ipsum lobortis nec.
+                                La A71 es una de las baterías electrónicas top de línea de Avatar dando un paso más allá en estos instrumentos electrónicos, 
+                                que se ve y se siente como una batería acústica real. Junto con la mejor calidad de sonido, el cuerpo de cada parte de la 
+                                batería es sorprendentemente hermoso.
                             </p>
                             <p class="text-muted">Reviews (74)</p>
                         </div>
@@ -285,39 +353,6 @@
     <!-- Start Footer -->
     <footer class="bg-dark" id="tempaltemo_footer">
         <div class="container">
-            <div class="row">
-
-                <div class="col-md-4 pt-5">
-                    <h2 class="h2 text-success border-bottom pb-3 border-light logo">Zay Shop</h2>
-                    <ul class="list-unstyled text-light footer-link-list">
-                        <li>
-                            <i class="fas fa-map-marker-alt fa-fw"></i>
-                            123 Consectetur at ligula 10660
-                        </li>
-                        <li>
-                            <i class="fa fa-phone fa-fw"></i>
-                            <a class="text-decoration-none" href="tel:010-020-0340">010-020-0340</a>
-                        </li>
-                        <li>
-                            <i class="fa fa-envelope fa-fw"></i>
-                            <a class="text-decoration-none" href="mailto:info@company.com">info@company.com</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="col-md-4 pt-5">
-                    <h2 class="h2 text-light border-bottom pb-3 border-light">Further Info</h2>
-                    <ul class="list-unstyled text-light footer-link-list">
-                        <li><a class="text-decoration-none" href="#">Home</a></li>
-                        <li><a class="text-decoration-none" href="#">About Us</a></li>
-                        <li><a class="text-decoration-none" href="#">Shop Locations</a></li>
-                        <li><a class="text-decoration-none" href="#">FAQs</a></li>
-                        <li><a class="text-decoration-none" href="#">Contact</a></li>
-                    </ul>
-                </div>
-
-            </div>
-
             <div class="row text-light mb-4">
                 <div class="col-12 mb-3">
                     <div class="w-100 my-3 border-top border-light"></div>
@@ -371,6 +406,8 @@
     <script src="assets/js/templatemo.js"></script>
     <script src="assets/js/custom.js"></script>
     <!-- End Script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/owl.carousel.min.js"></script>
 </body>
 
 </html>

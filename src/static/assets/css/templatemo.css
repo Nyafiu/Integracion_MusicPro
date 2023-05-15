@@ -19,7 +19,7 @@
 }
 
 /* Nav */
-#templatemo_nav_top { min-height: 40px;}
+#templatemo_nav_top { min-height: 35px;}
 #templatemo_nav_top * { font-size: .9em !important;}
 #templatemo_main_nav a { color: #cfd6e1;} /* Updated */
 #templatemo_main_nav a:hover { color: #838383;}
@@ -116,7 +116,7 @@ height: 6px;
 .tempaltemo-carousel .h1 { font-size: 1em !important;}
 }
 
-/// Medium devices (tablets, 768px and up)/
+/* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) {
 #templatemo_main_nav .navbar-nav {max-width: 450px;}
 }

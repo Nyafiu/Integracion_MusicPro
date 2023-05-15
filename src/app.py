@@ -43,9 +43,9 @@ def search():
     return render_template("search_results.html", query=query)
 
 
-# Def que sirve para el error 404 hay que modificarlo
+@app.errorhandler(404)
 def error404(error):
-    return "<h1> uhhh manito no se como llegaste aqui... <h1>", 404
+    return render_template('page404.html'), 404
 
 
 if __name__ == "__main__":
