@@ -6,6 +6,7 @@ import base64
 import uuid
 import imghdr
 
+
 main = Blueprint("producto_blueprint", __name__)
 
 @main.route("/")
