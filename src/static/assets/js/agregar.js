@@ -10,7 +10,6 @@ agregarProducto.addEventListener('submit', async e => {
     // Obtener la imagen seleccionada por el usuario
     const imagenInput = agregarProducto['imagenProducto']
     const imagenFile = imagenInput.files[0]
-  
     // Leer la imagen como base64
     const reader = new FileReader()
     reader.onloadend = async function () {
@@ -40,7 +39,6 @@ agregarProducto.addEventListener('submit', async e => {
             alert("Hubo un error al agregar el producto")
         }
     }
-  
     // Leer la imagen como base64
     reader.readAsDataURL(imagenFile)
 })

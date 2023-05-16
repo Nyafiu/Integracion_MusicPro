@@ -24,7 +24,6 @@ def get_productos():
     conn.close()
     return productos
 
-
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -37,11 +36,9 @@ def login():
 def loginAdmin():
     return render_template("loginAdmin.html")
 
-
 @app.route("/about")
 def about():
     return render_template("about.html")
-
 
 @app.route('/shop')
 def shop():
@@ -78,7 +75,6 @@ if __name__ == "__main__":
     # Forma mas practica de tener el modo debug activo (acordarse de desactivarlo al finalizar la app)
     app.config.from_object(config["development"])
     app.register_error_handler(404, error404)
-
     # Blueprint
     app.register_blueprint(Producto.main, url_prefix="/api/productos")
     app.run()

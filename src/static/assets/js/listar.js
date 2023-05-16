@@ -22,7 +22,7 @@ function renderProducto(producto) {
         <h2>Precio:</h2><h4>${producto.Precio}</h4>
         <h2>Descripcion:</h2><h4>${producto.Descripcion}</h4>
         <h2>Imagen:</h2>
-        <img src="/api/productos/uploads/${producto.Imagen}" alt="Imagen del producto">
+        <img src="/static/uploads/${producto.Imagen}" alt="Imagen del producto">
         <br>
         <button class="btn-delete">eliminar</button>
         <button class="btn-update" onclick="goToTop()">actualizar</button>

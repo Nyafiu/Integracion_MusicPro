@@ -33,33 +33,33 @@ def get_producto(nombre):
 
 import imghdr
 
-@main.route("/uploads/<Imagen>")
-def get_imagen_producto(Imagen):
+@main.route("/uploads/<Nombre>", methods=["GET"])
+def get_imagen_producto(Nombre):
     try:
-        ruta_archivo = os.path.join("src", "static", "uploads", Imagen)
+        ruta_archivo = "static" + "/" + "uploads" + "/" + Nombre
 
         if os.path.exists(ruta_archivo):
             with open(ruta_archivo, "rb") as archivo:
                 imagen_bytes = archivo.read()
 
             extension = imghdr.what("", h=imagen_bytes)
-            if not extension:
-                raise ValueError("La imagen proporcionada no tiene una extensión válida.")
+            # Lista de extensiones permitidas
+            extensiones_permitidas = ['jpeg', 'jpg', 'png', 'gif']
 
-            ruta_archivo = os.path.join("src", "static", "uploads", f"{Imagen}.{extension}")
+            if not extension or extension not in extensiones_permitidas:
+                raise ValueError("La imagen proporcionada no tiene una extensión válida o no está permitida.")
 
-            with open(ruta_archivo, "rb") as archivo:
-                imagen_bytes = archivo.read()
+            ruta_archivo = os.path.join("static", "uploads", f"{Nombre}.{extension}")
 
-            imagen_base64 = base64.b64encode(imagen_bytes).decode("utf-8")
-
-            return jsonify({"imagen": imagen_base64})
+            return send_file(ruta_archivo, mimetype=f"image/{extension}")
         else:
-            ruta_marcador = os.path.join("src", "static", "placeholder.jpg")
+            ruta_marcador = os.path.join("static", "placeholder.jpg")
             return send_file(ruta_marcador, mimetype="image/jpeg")
     except Exception as ex:
         print(str(ex))
         return jsonify({"mensaje": "Error al cargar la imagen"}), 500
+
+
 
 
 
@@ -82,7 +82,7 @@ def add_producto():
             raise ValueError("La imagen proporcionada no tiene una extensión válida.")
         
         # Guardar la imagen en un archivo en el directorio "uploads"
-        nombre_archivo = idProductos + "." + extension
+        nombre_archivo = Nombre + "." + extension
         ruta_archivo = os.path.join("src", "static", "uploads", nombre_archivo)
         with open(ruta_archivo, "wb") as archivo:
             archivo.write(imagen_decodificada)
@@ -94,9 +94,9 @@ def add_producto():
         if affected_rows == 1:
             return jsonify({"id": producto.idProductos})
         else:
-            return jsonify({"Mensaje:": "fallo en la inserción"}), 500
+            return jsonify({"Mensaje": "Fallo en la inserción"}), 500
     except Exception as ex:
-        return jsonify({"Mensaje:": str(ex)}), 500
+        return jsonify({"Mensaje": str(ex)}), 500
 
 
 
