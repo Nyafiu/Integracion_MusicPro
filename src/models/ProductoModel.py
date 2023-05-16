@@ -1,13 +1,14 @@
 from database.db import get_connection
 from .entities.Productos import Producto
-
+import base64
 
 class ProductoModel:
+
     @classmethod
     def get_productos(self):
         try:
             connection = get_connection()
-            Productos = []
+            productos = []
             with connection.cursor() as cursor:
                 cursor.execute(
                     """SELECT "idProductos", "nombre", "precio", "descripcion", "imagen" FROM public.productos;"""
@@ -16,9 +17,10 @@ class ProductoModel:
 
                 for row in resultset:
                     producto = Producto(row[0], row[1], row[2], row[3], row[4])
-                    Productos.append(producto.to_json())
+                    productos.append(producto)
+
             connection.close()
-            return Productos
+            return productos
         except Exception as ex:
             raise Exception(ex)
 
@@ -35,8 +37,10 @@ class ProductoModel:
                 row = cursor.fetchone()
 
                 producto = None
-                if row != None:
-                    producto = Producto(row[0], row[1], row[2], row[3], row[4])
+                if row is not None:
+                    imagen_base64 = row[4]
+                    imagen_bytes = base64.b64decode(imagen_base64)
+                    producto = Producto(row[0], row[1], row[2], row[3], imagen_bytes)
                     producto = producto.to_json()
             connection.close()
             return producto

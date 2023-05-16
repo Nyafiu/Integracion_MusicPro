@@ -1,27 +1,36 @@
 const agregarProducto = document.querySelector("#agregarProducto");
-const listarProducto = document.querySelector("#listarProducto");
-const actualizarProducto = document.querySelector("#actualizarProducto");
 const listaProducto = document.querySelector("#listarProducto");
+const actualizarProducto = document.querySelector("#actualizarProducto"); // Agregado
 
 async function getProductos() {
-    const response = await fetch("/api/productos");
-    const productos = await response.json();
-    return productos;
+    try {
+        const response = await fetch("/api/productos");
+        const data = await response.json();
+        console.log("Datos recibidos:", data);
+        return data;
+    } catch (error) {
+        console.error("Error al obtener los productos:", error);
+        return [];
+    }
 }
 
 function renderProducto(producto) {
     const productoItem = document.createElement("li");
     productoItem.innerHTML = `
-    <h4><h2>Id:</h2>${producto.idProductos}</h4>
-    <h4><h2>Nombre:</h2>${producto.Nombre}</h4>
-    <h4><h2>Precio:</h2>${producto.Precio}</h4>
-    <h4><h2>Descripcion:</h2>${producto.Descripcion}</h4>
-    <h4><h2>Imagen:</h2>${producto.Imagen}</h4><br>
-    <button class="btn-delete">eliminar</button>
-    <button class="btn-update" onclick="goToTop()">actualizar</button>
-`;
+        <h2>Id:</h2><h4>${producto.idProductos}</h4>
+        <h2>Nombre:</h2><h4>${producto.Nombre}</h4>
+        <h2>Precio:</h2><h4>${producto.Precio}</h4>
+        <h2>Descripcion:</h2><h4>${producto.Descripcion}</h4>
+        <h2>Imagen:</h2>
+        <img src="/api/productos/uploads/${producto.Imagen}" alt="Imagen del producto">
+        <br>
+        <button class="btn-delete">eliminar</button>
+        <button class="btn-update" onclick="goToTop()">actualizar</button>
+    `;
+    
     const btnDelete = productoItem.querySelector(".btn-delete");
     const btnUpdate = productoItem.querySelector(".btn-update");
+
     btnDelete.addEventListener("click", async () => {
         if (confirm(`¿Estás seguro de eliminar este producto? ${producto.Nombre}`)) {
             const response = await fetch(`/api/productos/delete/${producto.idProductos}`, { method: "DELETE" });
@@ -35,7 +44,7 @@ function renderProducto(producto) {
         }
     });
 
-    btnUpdate.addEventListener("click", async (e) => {
+    btnUpdate.addEventListener("click", (e) => {
         e.preventDefault();
         const nombreProducto = actualizarProducto.querySelector("#nombreProducto");
         const precioProducto = actualizarProducto.querySelector("#precioProducto");
@@ -45,23 +54,7 @@ function renderProducto(producto) {
         nombreProducto.value = producto.Nombre;
         precioProducto.value = producto.Precio;
         descripcionProducto.value = producto.Descripcion;
-        imagenProducto.value = producto.Imagen;
-
-        actualizarProducto.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const response = await fetch(`/api/productos/update/${producto.idProductos}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    nombre: nombreProducto.value,
-                    precio: precioProducto.value,
-                    descripcion: descripcionProducto.value,
-                    imagen: null,
-                }),
-            });
-            const data = await response.json();
-            console.log(data);
-        });
+        imagenProducto.src = `/api/productos/uploads/${producto.Imagen}`;
     });
 
     listaProducto.append(productoItem);
@@ -77,8 +70,8 @@ window.addEventListener("DOMContentLoaded", renderProductos);
 
 function goToTop() {
     window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "smooth"
+        top: 0,
+        left: 0,
+        behavior: "smooth"
     });
-  }
+}

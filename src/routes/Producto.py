@@ -1,30 +1,67 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, send_file
 from models.ProductoModel import ProductoModel
 from models.entities.Productos import Producto
+import os
+import base64
 import uuid
-
+import imghdr
 
 main = Blueprint("producto_blueprint", __name__)
 
 @main.route("/")
 def get_productos():
     try:
-        Productos = ProductoModel.get_productos()
-        return jsonify(Productos)
+        productos = ProductoModel.get_productos()
+        productos_json = [producto.to_json() for producto in productos]
+        return jsonify(productos_json)
     except Exception as ex:
         return jsonify({"mensaje": str(ex)}), 500
-
 
 @main.route("/<nombre>")
 def get_producto(nombre):
     try:
         producto = ProductoModel.get_producto(nombre)
-        if producto != None:
+        if producto is not None:
             return jsonify(producto)
         else:
             return jsonify({}), 404
     except Exception as ex:
         return jsonify({"Mensaje:": str(ex)}), 500
+
+
+
+import imghdr
+
+@main.route("/uploads/<Imagen>")
+def get_imagen_producto(Imagen):
+    try:
+        ruta_archivo = os.path.join("src", "static", "uploads", Imagen)
+
+        if os.path.exists(ruta_archivo):
+            with open(ruta_archivo, "rb") as archivo:
+                imagen_bytes = archivo.read()
+
+            extension = imghdr.what("", h=imagen_bytes)
+            if not extension:
+                raise ValueError("La imagen proporcionada no tiene una extensión válida.")
+
+            ruta_archivo = os.path.join("src", "static", "uploads", f"{Imagen}.{extension}")
+
+            with open(ruta_archivo, "rb") as archivo:
+                imagen_bytes = archivo.read()
+
+            imagen_base64 = base64.b64encode(imagen_bytes).decode("utf-8")
+
+            return jsonify({"imagen": imagen_base64})
+        else:
+            ruta_marcador = os.path.join("src", "static", "placeholder.jpg")
+            return send_file(ruta_marcador, mimetype="image/jpeg")
+    except Exception as ex:
+        print(str(ex))
+        return jsonify({"mensaje": "Error al cargar la imagen"}), 500
+
+
+
 
 @main.route("/add", methods=["POST"])
 def add_producto():
@@ -32,17 +69,37 @@ def add_producto():
         Nombre = request.json["nombre"]
         Precio = int(request.json["precio"])
         Descripcion = request.json["descripcion"]
-        idProductos = uuid.uuid4()
-        producto = Producto(str(idProductos), Nombre, Precio, Descripcion)
+        Imagen = request.json["imagen"]  # Cambio en la clave del JSON
+        idProductos = str(uuid.uuid4())  # Convertir a cadena el ID generado
+        
+        # Decodificar la imagen en base64
+        imagen_decodificada = base64.b64decode(Imagen)
+        
+        # Obtener la extensión de la imagen (por ejemplo, .jpg, .png)
+        extension = imghdr.what("", h=imagen_decodificada)
+        if not extension:
+            raise ValueError("La imagen proporcionada no tiene una extensión válida.")
+        
+        # Guardar la imagen en un archivo en el directorio "uploads"
+        nombre_archivo = idProductos + "." + extension
+        ruta_archivo = os.path.join("src", "static", "uploads", nombre_archivo)
+        with open(ruta_archivo, "wb") as archivo:
+            archivo.write(imagen_decodificada)
+
+        producto = Producto(idProductos, Nombre, Precio, Descripcion, nombre_archivo)
 
         affected_rows = ProductoModel.add_producto(producto)
 
         if affected_rows == 1:
-            return jsonify({"id":producto.idProductos})
+            return jsonify({"id": producto.idProductos})
         else:
-            return jsonify({"Mensaje:": "fallo en la insersion"}), 500
+            return jsonify({"Mensaje:": "fallo en la inserción"}), 500
     except Exception as ex:
         return jsonify({"Mensaje:": str(ex)}), 500
+
+
+
+
 
 @main.route("/delete/<idProductos>", methods=["DELETE"])
 def delete_producto(idProductos):

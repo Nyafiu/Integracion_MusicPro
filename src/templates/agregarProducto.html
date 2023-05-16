@@ -13,7 +13,7 @@
 
     <!--Faltar por arreglar lo de poder ingresar una imagen pero si no ingresas una igualmente funciona-->
 
-    <form id="agregarProducto">
+    <form id="agregarProducto" enctype="multipart/form-data" method="POST">
         <label for="nombreProducto">Nombre del producto:</label>
         <input type="text" name="nombreProducto" id="nombreProducto" required>
         <br>
@@ -24,10 +24,11 @@
         <textarea name="descripcionProducto" id="descripcionProducto" required></textarea>
         <br>
         <label for="imagenProducto">Imagen:</label>
-        <input type="file" name="imagenProducto" id="imagenProducto">
+        <input type="file" id="imagenProducto" name="imagenProducto"/>
         <br>
         <button type="submit">Agregar producto</button>
     </form>
+
 
     <script src="static/assets/js/agregar.js"></script>
 </body>
