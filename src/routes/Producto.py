@@ -70,7 +70,9 @@ def add_producto():
         Nombre = request.json["nombre"]
         Precio = int(request.json["precio"])
         Descripcion = request.json["descripcion"]
-        Imagen = request.json["imagen"]  # Cambio en la clave del JSON
+        Imagen = request.json["imagen"]
+        Stock = int(request.json["stock"])
+        Categoria = request.json["categoria"] 
         idProductos = str(uuid.uuid4())  # Convertir a cadena el ID generado
         
         # Decodificar la imagen en base64
@@ -87,7 +89,7 @@ def add_producto():
         with open(ruta_archivo, "wb") as archivo:
             archivo.write(imagen_decodificada)
 
-        producto = Producto(idProductos, Nombre, Precio, Descripcion, nombre_archivo)
+        producto = Producto(idProductos, Nombre, Precio, Descripcion, nombre_archivo, Stock, Categoria)
 
         affected_rows = ProductoModel.add_producto(producto)
 
@@ -123,7 +125,10 @@ def update_producto(idProductos):
         precio = int(request.json["precio"])
         descripcion = request.json["descripcion"]
         imagen = request.json["imagen"]
-        producto = Producto(idProductos, nombre, precio, descripcion, imagen)
+        Stock = int(request.json["stock"])
+        Categoria = request.json["categoria"]
+        
+        producto = Producto(idProductos, nombre, precio, descripcion, imagen, Stock, Categoria)
 
         affected_rows = ProductoModel.update_producto(producto)
 

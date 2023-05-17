@@ -11,12 +11,12 @@ class ProductoModel:
             productos = []
             with connection.cursor() as cursor:
                 cursor.execute(
-                    """SELECT "idProductos", "nombre", "precio", "descripcion", "imagen" FROM public.productos;"""
+                    """SELECT "idProductos", "nombre", "precio", "descripcion", "imagen", "stock", "categoria" FROM public.productos;"""
                 )
                 resultset = cursor.fetchall()
 
                 for row in resultset:
-                    producto = Producto(row[0], row[1], row[2], row[3], row[4])
+                    producto = Producto(row[0], row[1], row[2], row[3], row[4], row[5], row[6])
                     productos.append(producto)
 
             connection.close()
@@ -30,7 +30,7 @@ class ProductoModel:
             connection = get_connection()
             with connection.cursor() as cursor:
                 cursor.execute(
-                    """SELECT "idProductos", "nombre", "precio", "descripcion", "imagen"
+                    """SELECT "idProductos", "nombre", "precio", "descripcion", "imagen", "stock", "categoria"
                                 FROM public.productos WHERE "nombre" = %s""",
                     (nombre,),
                 )
@@ -54,14 +54,16 @@ class ProductoModel:
             with connection.cursor() as cursor:
                 cursor.execute(
                     """INSERT INTO public.productos(
-	                        "idProductos", "nombre", "precio", "descripcion", "imagen")
-	                        VALUES (%s, %s, %s, %s, %s);""",
+	                        "idProductos", "nombre", "precio", "descripcion", "imagen", "stock", "categoria")
+	                        VALUES (%s, %s, %s, %s, %s, %s, %s);""",
                     (
                         Producto.idProductos,
                         Producto.Nombre,
                         Producto.Precio,
                         Producto.Descripcion,
                         Producto.Imagen,
+                        Producto.Stock,
+                        Producto.Categoria,
                     ),
                 )
                 affected_rows = cursor.rowcount
@@ -98,7 +100,7 @@ class ProductoModel:
             with connection.cursor() as cursor:
                 cursor.execute(
                     """UPDATE public.productos
-	                        SET nombre=%s, precio=%s, descripcion=%s, imagen=%s
+	                        SET nombre=%s, precio=%s, descripcion=%s, imagen=%s, stock=%s, categoria=%s
 	                        WHERE "idProductos"=%s;""",
                     (
                         Producto.Nombre,
@@ -106,6 +108,8 @@ class ProductoModel:
                         Producto.Descripcion,
                         Producto.Imagen,
                         Producto.idProductos,
+                        Producto.Stock,
+                        Producto.Categoria,
                     ),
                 )
                 affected_rows = cursor.rowcount

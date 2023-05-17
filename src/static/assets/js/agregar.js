@@ -6,7 +6,8 @@ agregarProducto.addEventListener('submit', async e => {
     const nombre = agregarProducto['nombreProducto'].value
     const precio = agregarProducto['precioProducto'].value
     const descripcion = agregarProducto['descripcionProducto'].value
-
+    const stock = agregarProducto['stockProducto'].value
+    const categoria = agregarProducto['categoriaProducto'].value
     // Obtener la imagen seleccionada por el usuario
     const imagenInput = agregarProducto['imagenProducto']
     const imagenFile = imagenInput.files[0]
@@ -26,7 +27,9 @@ agregarProducto.addEventListener('submit', async e => {
                 nombre,
                 precio,
                 descripcion,
-                imagen: imagenBase64 // Agregar la imagen en base64 al objeto JSON
+                imagen: imagenBase64,
+                stock,
+                categoria
             })
         })
 

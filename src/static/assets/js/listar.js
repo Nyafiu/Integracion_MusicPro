@@ -21,6 +21,8 @@ function renderProducto(producto) {
         <h2>Nombre:</h2><h4>${producto.Nombre}</h4>
         <h2>Precio:</h2><h4>${producto.Precio}</h4>
         <h2>Descripcion:</h2><h4>${producto.Descripcion}</h4>
+        <h2>Stock:</h2><h4>${producto.Stock}</h4>
+        <h2>Categoria:</h2><h4>${producto.Categoria}</h4>
         <h2>Imagen:</h2>
         <img src="/static/uploads/${producto.Imagen}" alt="Imagen del producto">
         <br>
