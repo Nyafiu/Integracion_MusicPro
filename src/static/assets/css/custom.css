@@ -102,3 +102,13 @@ body {
     position: relative;
     z-index: 1001;
 }
+
+.overlay-icons {
+    opacity: 0;
+    transition: .5s ease;
+    background-color: rgba(0, 0, 0, 0.5); /* Si deseas un fondo oscuro en el overlay */
+}
+
+.position-relative:hover .overlay-icons {
+    opacity: 1;
+}

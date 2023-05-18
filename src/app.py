@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, g
 from config import config
 from routes import Producto
 from flask_cors import CORS
@@ -23,6 +23,17 @@ def get_productos():
     cur.close()
     conn.close()
     return productos
+
+def get_db():
+    if 'db' not in g:
+        g.db = psycopg2.connect(
+            dbname="MusicPro",
+            user="postgres",
+            password="1234",
+            host="localhost",
+            port="5432"
+        )
+    return g.db
 
 @app.route("/")
 def index():
@@ -56,6 +67,14 @@ def listar():
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
+
+@app.route('/categorias/<categoria>')
+def categorias(categoria):
+    cur = get_db().cursor()
+    cur.execute('SELECT * FROM productos WHERE categoria = %s', (categoria,))
+    productos = cur.fetchall()
+    return render_template('shop.html', productos=productos)
+
 
 
 @app.route("/search")

@@ -64,11 +64,10 @@
                         Categorías
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="#">Audio</a></li>
-                        <li><a class="dropdown-item" href="#">Guitarras</a></li>
-                        <li><a class="dropdown-item" href="#">Bajos</a></li>
-                        <li><a class="dropdown-item" href="#">Baterías y percusión</a></li>
-                        <li><a class="dropdown-item" href="#">Pianos y teclados</a></li>
+                        <li><a class="text-decoration-none" href="{{ url_for('categorias', categoria='Guitarras') }}">Guitarras</a></li>
+                        <li><a class="text-decoration-none" href="{{ url_for('categorias', categoria='Bajos') }}">Bajos</a></li>
+                        <li><a class="text-decoration-none" href="{{ url_for('categorias', categoria='Baterias') }}">Baterias</a></li>
+                        <li><a class="text-decoration-none" href="{{ url_for('categorias', categoria='Pianos y Teclados') }}">Pianos y Teclados</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -95,38 +94,12 @@
                 <h1 class="h2 pb-4 text-light">Categorías</h1>
                 <ul class="list-unstyled templatemo-accordion">
                     <li class="pb-3">
-                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                            Instrumentos
-                            <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
-                        </a>
                         <ul class="collapse show list-unstyled pl-3">
-                            <li><a class="text-decoration-none" href="#">Guitarras</a></li>
-                            <li><a class="text-decoration-none" href="#">Bajos</a></li>
-                            <li><a class="text-decoration-none" href="#">Baterías</a></li>
-                            <li><a class="text-decoration-none" href="#">Pianos y Teclados</a></li>
-                        </ul>
-                    </li>
-                    <li class="pb-3">
-                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                            Audio
-                            <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-                        </a>
-                        <ul id="collapseTwo" class="collapse list-unstyled pl-3">
-                            <li><a class="text-decoration-none" href="#">Micrófonos</a></li>
-                            <li><a class="text-decoration-none" href="#">Auriculares</a></li>
-                            <li><a class="text-decoration-none" href="#">Amplificadores</a></li>
-                        </ul>
-                    </li>
-                    <li class="pb-3">
-                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                            Accesorios
-                            <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-                        </a>
-                        <ul id="collapseThree" class="collapse list-unstyled pl-3">
-                            <li><a class="text-decoration-none" href="#">Cuerdas</a></li>
-                            <li><a class="text-decoration-none" href="#">Baquetas</a></li>
-                            <li><a class="text-decoration-none" href="#">Afinadores</a></li>
-                        </ul>
+                        <li><a class="text-decoration-none" href="{{ url_for('categorias', categoria='Guitarras') }}">Guitarras</a></li>
+                        <li><a class="text-decoration-none" href="{{ url_for('categorias', categoria='Bajos') }}">Bajos</a></li>
+                        <li><a class="text-decoration-none" href="{{ url_for('categorias', categoria='Baterias') }}">Baterias</a></li>
+                        <li><a class="text-decoration-none" href="{{ url_for('categorias', categoria='Pianos y Teclados') }}">Pianos y Teclados</a></li>
+                    </ul>
                     </li>
                 </ul>
             </div>
@@ -159,71 +132,35 @@
                             </div>
 
 <div class="row">
-                        {% for producto in productos %}
-                            <div class="col-md-6">  <!-- Ajusta el tamaño de la columna según sea necesario -->
-                                <div class="card mb-4 product-wap rounded-0">
-                                    <div class="card rounded-0">
-                                        <img class="card-img rounded-0 img-fluid" src="{{ producto[4] }}">
-                                        <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                                            <ul class="list-unstyled">
-                                                <li><a class="btn btn-success text-white" href="/producto/{{ producto[0] }}"><i class="far fa-heart"></i></a></li>
-                                                <li><a class="btn btn-success text-white mt-2" href="/producto/{{ producto[0] }}"><i class="far fa-eye"></i></a></li>
-                                                <li><a class="btn btn-success text-white mt-2" href="/carrito/{{ producto[0] }}"><i class="fas fa-cart-plus"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <a href="/producto/{{ producto[0] }}" class="h3 text-decoration-none">{{ producto[1] }}</a>
-                                        <p class="text-center mb-0">${{ producto[2] }}</p>
-                                        <p class="text-center">{{ producto[3] }}</p> <!-- Aquí se muestra la descripción del producto -->
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-
-                        {% for producto in productos %}
-                            <div class="col-md-6">  <!-- Ajusta el tamaño de la columna según sea necesario -->
-                                <div class="card mb-4 product-wap rounded-0">
-                                    <div class="card rounded-0">
-                                        <img class="card-img rounded-0 img-fluid" src="{{ producto[4] }}">
-                                        <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                                            <ul class="list-unstyled">
-                                                <li><a class="btn btn-success text-white" href="/producto/{{ producto[0] }}"><i class="far fa-heart"></i></a></li>
-                                                <li><a class="btn btn-success text-white mt-2" href="/producto/{{ producto[0] }}"><i class="far fa-eye"></i></a></li>
-                                                <li><a class="btn btn-success text-white mt-2" href="/carrito/{{ producto[0] }}"><i class="fas fa-cart-plus"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <a href="/producto/{{ producto[0] }}" class="h3 text-decoration-none">{{ producto[1] }}</a>
-                                        <p class="text-center mb-0">${{ producto[2] }}</p>
-                                        <p class="text-center">{{ producto[3] }}</p> <!-- Aquí se muestra la descripción del producto -->
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                        {% for producto in productos %}
-                            <div class="col-md-6">  <!-- Ajusta el tamaño de la columna según sea necesario -->
-                                <div class="card mb-4 product-wap rounded-0">
-                                    <div class="card rounded-0">
-                                        <img class="card-img rounded-0 img-fluid" src="{{ producto[4] }}">
-                                        <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                                            <ul class="list-unstyled">
-                                                <li><a class="btn btn-success text-white" href="/producto/{{ producto[0] }}"><i class="far fa-heart"></i></a></li>
-                                                <li><a class="btn btn-success text-white mt-2" href="/producto/{{ producto[0] }}"><i class="far fa-eye"></i></a></li>
-                                                <li><a class="btn btn-success text-white mt-2" href="/carrito/{{ producto[0] }}"><i class="fas fa-cart-plus"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <a href="/producto/{{ producto[0] }}" class="h3 text-decoration-none">{{ producto[1] }}</a>
-                                        <p class="text-center mb-0">${{ producto[2] }}</p>
-                                        <p class="text-center">{{ producto[3] }}</p> <!-- Aquí se muestra la descripción del producto -->
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
+{% for producto in productos %}
+    <div class="col-md-4 mb-4">
+        <div class="card shadow h-100">
+            <div class="position-relative">
+                <img class="img-fluid rounded-top" src="/static/uploads/{{ producto[4] }}">
+                <div class="card-img-overlay d-flex justify-content-center align-items-center overlay-icons">
+                    <ul class="list-unstyled">
+                        <li><a class="btn btn-success text-white" href="/producto/{{ producto[0] }}"><i class="far fa-heart"></i></a></li>
+                        <li><a class="btn btn-success text-white mt-2" href="/producto/{{ producto[0] }}"><i class="far fa-eye"></i></a></li>
+                        <li><a class="btn btn-success text-white mt-2" href="/carrito/{{ producto[0] }}"><i class="fas fa-cart-plus"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-body text-center"> <!-- Aquí se añadió text-center -->
+                <a href="/producto/{{ producto[0] }}" class="h3 text-decoration-none text-dark">{{ producto[1] }}</a>
+                <h4 class="text-dark">${{ producto[2] }}</h4>
+                <p class="text-muted">{{ producto[3] }}</p>
+                <p class="text-primary">Stock: {{ producto[5] }}</p>
+                <div class="d-flex justify-content-center mt-3">
+                    <a href="/carrito/{{ producto[0] }}" class="btn btn-success">
+                        <i class="fas fa-cart-plus"></i> Agregar al carrito
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
 </div>
+
 
     <!-- End Content -->
 
