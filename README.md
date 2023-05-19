@@ -73,3 +73,44 @@ python app.py
 Esto iniciará el servidor Flask y tu proyecto estará disponible en la dirección `http://localhost:5000`.
 
 ¡Felicidades! Has instalado y configurado correctamente el proyecto en Flask.
+
+## Integración de la Base de Datos PostgreSQL
+
+El proyecto requiere una base de datos PostgreSQL para su funcionamiento correcto. A continuación, se describen los pasos para configurar la base de datos y crear las tablas necesarias.
+
+Requisitos:
+
+- PostgreSQL (versión 15 o superior)
+
+### Paso 1: Configuración de la Base de Datos
+
+Para comenzar, debes tener una base de datos PostgreSQL instalada en tu equipo. Si aún no la tienes, puedes descargarla desde el sitio oficial de PostgreSQL. 
+
+Una vez instalado PostgreSQL, crea una base de datos llamada 'MusicPro' y establece la contraseña a '1234'. 
+
+### Paso 2: Creación de la Tabla "productos"
+
+Una vez creada la base de datos, debes crear una tabla llamada "productos". Para ello, sigue estos pasos:
+
+1. Abre el navegador de PostgreSQL (PgAdmin, DBeaver, etc.) y navega hasta la sección "Tables" siguiendo esta ruta: Servers / PostgreSQL 15 / Databases / MusicPro / Schemas / public / Tables
+2. Haz clic derecho en la sección "Tables" y selecciona "Create" -> "Table".
+3. En la nueva ventana, introduce 'productos' como el nombre de la tabla.
+4. A continuación, debes agregar las siguientes columnas:
+
+   - idProductos: de tipo 'character varying', con una longitud de 100. Marca la opción "NOT NULL" y establece esta columna como "Primary Key".
+   - nombre: de tipo 'character varying', con una longitud de 100. Marca la opción "NOT NULL".
+   - precio: de tipo 'integer'. Marca la opción "NOT NULL".
+   - descripcion: de tipo 'character varying', con una longitud de 1000. Marca la opción "NOT NULL".
+   - imagen: de tipo 'character varying', con una longitud de 100. Marca la opción "NOT NULL".
+   - stock: de tipo 'integer'. Marca la opción "NOT NULL".
+   - categoria: de tipo 'character varying', con una longitud de 100. Marca la opción "NOT NULL".
+
+5. Una vez que todas las columnas estén agregadas, haz clic en "Save" para crear la tabla.
+6. Para ir a la Query con los datos de la base de datos haz click derecho en la tabla "productos" -> Scripts -> SELECT Script
+7. Para ejecutar o refrescar la Query puedes usar F5 o hacer click en el boton "Play" de "Execute/Refresh"
+8. Recuerda, para agregar productos, es en la URL /agregar/ del proyecto en Flask
+
+¡Felicidades! Has configurado correctamente la base de datos PostgreSQL para el proyecto.
+
+Nota: Recuerda agregar la cadena de conexión a tu base de datos PostgreSQL en el archivo .env. Debes incluir el nombre de la base de datos, el usuario, la contraseña y el host. Consulta la documentación del proyecto para obtener más detalles.
+
