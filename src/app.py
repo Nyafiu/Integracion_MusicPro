@@ -47,6 +47,10 @@ def login():
 def loginAdmin():
     return render_template("loginAdmin.html")
 
+@app.route("/registro")
+def registro():
+    return render_template("registroCliente.html")
+
 @app.route("/about")
 def about():
     return render_template("about.html")
