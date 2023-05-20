@@ -74,7 +74,7 @@ Esto iniciará el servidor Flask y tu proyecto estará disponible en la direcci�
 
 ¡Felicidades! Has instalado y configurado correctamente el proyecto en Flask.
 
-## Integración de la Base de Datos PostgreSQL
+# 🖥️ Integración de la Base de Datos PostgreSQL
 
 El proyecto requiere una base de datos PostgreSQL para su funcionamiento correcto. A continuación, se describen los pasos para configurar la base de datos y crear las tablas necesarias.
 
