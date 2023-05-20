@@ -16,6 +16,9 @@
     <div class="container">
         <div class="card mx-auto">
             <div class="row d-flex justify-content-center align-items-center"> <!-- fila -->
+                <div class="volver-atras2">
+                    <a href="login"><i class="fa fa-arrow-left"></i></a>
+                </div>
                 <div class="col-md-6 d-flex align-items-center overflow-hidden"> <!-- columna con foto -->
                     <img class="img-fluid foto" src="{{url_for ('static', filename='assets/img/random.jpg')}}" alt="...">
                 </div>
@@ -26,7 +29,8 @@
                             <div class="input-icon">
                                 <div class="row">
                                     <i class="fas fa-user fa-fw"></i>
-                                    <input type="text" class=" form-control input100" id="nombre" name="nombre" placeholder="Nombre">
+                                    <input type="text" class="form-control input100" id="nombre" name="nombre" placeholder="Nombre">
+                                    <div class="focus-input100"></div>
                                 </div>
                             </div>
                         </div>
@@ -35,6 +39,7 @@
                                 <div class="row">
                                     <i class="fas fa-user me-3 fa-fw"></i>
                                     <input type="text" class="form-control input100" id="apellido" name="apellido" placeholder="Apellido">
+                                    <div class="focus-input100"></div>
                                 </div>
                             </div>
                         </div>
@@ -43,6 +48,7 @@
                                 <div class="row">
                                     <i class="fas fa-envelope me-3 fa-fw"></i>
                                     <input type="email" class="form-control input100" id="email" name="email" placeholder="Email">
+                                    <div class="focus-input100"></div>
                                 </div>
                             </div>
                         </div>
@@ -51,6 +57,7 @@
                                 <div class="row">
                                     <i class="fas fa-lock me-3 fa-fw"></i>
                                     <input type="password" class="form-control input100" id="contraseña" name="contraseña" placeholder="Contraseña">
+                                    <div class="focus-input100"></div>
                                 </div>
                             </div>
                         </div>

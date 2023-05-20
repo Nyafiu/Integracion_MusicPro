@@ -150,6 +150,7 @@ iframe {
   margin: 0 auto;
 }
 
+
 .container-login100 {
   width: 100%;  
   min-height: 100vh;
@@ -161,7 +162,7 @@ iframe {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  padding: 15px;
+  padding: 0;
   background: #615769;
   background: -webkit-linear-gradient(-135deg, #b4abb4, #3b3942);
   background: -o-linear-gradient(-135deg, #b4abb4, #3b3942);
@@ -175,7 +176,7 @@ iframe {
   background: #fff;
   border-radius: 10px;
   overflow: hidden;
-  
+  position: relative;
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -186,36 +187,19 @@ iframe {
   padding: 100px 130px 33px 95px;
 }
 
-.wrap-loginAdmin100 {
-  width: 460px;
-  height: 460px;
-  background: #fff;
-  border-radius: 10px;
-  overflow: hidden;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: inline-block;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  /*padding: 100px 130px 33px 95px;*/
-  padding-top: 100px;
-  padding-left: 85px;
-}
 
 .volver-atras {
-  margin-bottom: 20px;
-  position: fixed;
-  top: 115px;
-  left: 490px;
+  position: absolute;
+  top: 35px;
+  left: 45px;
+  z-index: 99;
 }
 
 .volver-atras2 {
-  margin-bottom: 20px;
-  position: fixed;
-  top: 50px;
-  left: 250px;
+  position: absolute;
+  top: 30px; 
+  left: 35px; 
+  z-index: 99; 
 }
 
 .volver-atras i,
@@ -253,6 +237,7 @@ iframe {
   width: 290px;
 }
 
+
 .login100-form-title {
   font-family: Poppins-Bold;
   font-size: 24px;
@@ -262,21 +247,8 @@ iframe {
 
   width: 100%;
   display: block;
-  padding-bottom: 54px;
+  padding-bottom: 24px;
   padding-top: 10px;
-}
-
-.login100-form-title-admin {
-  font-family: Poppins-Bold;
-  font-size: 24px;
-  color: #333333;
-  line-height: 1.2;
-  text-align: center;
-
-  width: 100%;
-  display: block;
-  padding-bottom: 48px;
-  padding-top: -52px;
 }
 
 
@@ -418,11 +390,11 @@ iframe {
 
 @media (max-width: 992px) {
   .wrap-login100 {
-    padding: 177px 90px 33px 85px;
+    padding: 130px 90px 30px 95px!important;
   }
 
   .login100-pic {
-    width: 35%;
+    width: 40%;
   }
 
   .login100-form {
