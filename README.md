@@ -112,5 +112,3 @@ Una vez creada la base de datos, debes crear una tabla llamada "productos". Para
 
 ¡Felicidades! Has configurado correctamente la base de datos PostgreSQL para el proyecto.
 
-Nota: Recuerda agregar la cadena de conexión a tu base de datos PostgreSQL en el archivo .env. Debes incluir el nombre de la base de datos, el usuario, la contraseña y el host. Consulta la documentación del proyecto para obtener más detalles.
-
