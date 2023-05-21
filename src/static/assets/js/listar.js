@@ -16,13 +16,14 @@ async function getProductos() {
 
 function renderProducto(producto) {
     const productoItem = document.createElement("li");
+    listaProducto.classList.add("lista");
     productoItem.innerHTML = `
-        <h2>Id:</h2><h4>${producto.idProductos}</h4>
-        <h2>Nombre:</h2><h4>${producto.Nombre}</h4>
-        <h2>Precio:</h2><h4>${producto.Precio}</h4>
-        <h2>Descripcion:</h2><h4>${producto.Descripcion}</h4>
-        <h2>Stock:</h2><h4>${producto.Stock}</h4>
-        <h2>Categoria:</h2><h4>${producto.Categoria}</h4>
+        <h2>Id: <span class="cursiva">${producto.idProductos}</span></h2>
+        <h2>Nombre: <span class="cursiva">${producto.Nombre}</span></h2>
+        <h2>Precio: <span class="cursiva">${producto.Precio}</span></h2>
+        <h2>Descripcion: <span class="cursiva">${producto.Descripcion}</span></h2>
+        <h2>Stock: <span class="cursiva">${producto.Stock}</span></h2>
+        <h2>Categoria: <span class="cursiva">${producto.Categoria}</span></h2>
         <h2>Imagen:</h2>
         <img src="/static/uploads/${producto.Imagen}" alt="Imagen del producto">
         <br>
