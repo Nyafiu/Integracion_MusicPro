@@ -47,6 +47,18 @@ def login():
 def loginAdmin():
     return render_template("loginAdmin.html")
 
+@app.route("/admin")
+def admin():
+    return render_template("vistaAdmin.html")
+
+@app.route("/tables")
+def tables():
+    return render_template("tables.html")
+
+@app.route("/perfilAdmin")
+def user():
+    return render_template("perfilAdmin.html")
+
 @app.route("/registro")
 def registro():
     return render_template("registroCliente.html")
@@ -67,6 +79,10 @@ def agregar():
 @app.route("/listar")
 def listar():
     return render_template("listarProducto.html")
+
+@app.route("/listar2")
+def listar2():
+    return render_template("listar2.html")
 
 @app.route("/contact")
 def contact():
