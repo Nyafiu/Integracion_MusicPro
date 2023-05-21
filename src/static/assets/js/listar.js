@@ -52,11 +52,15 @@ function renderProducto(producto) {
         const precioProducto = actualizarProducto.querySelector("#precioProducto");
         const descripcionProducto = actualizarProducto.querySelector("#descripcionProducto");
         const imagenProducto = actualizarProducto.querySelector("#imagenProducto");
+        const stockProducto = actualizarProducto.querySelector('#stockProducto');
+        const categoriaProducto = actualizarProducto.querySelector('#categoriaProducto');
 
         nombreProducto.value = producto.Nombre;
         precioProducto.value = producto.Precio;
         descripcionProducto.value = producto.Descripcion;
         imagenProducto.src = `/api/productos/uploads/${producto.Imagen}`;
+        stockProducto.value = producto.Stock;
+        categoriaProducto.value = producto.Categoria;
     });
 
     listaProducto.append(productoItem);
