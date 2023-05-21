@@ -5,9 +5,27 @@ import os
 import base64
 import uuid
 import imghdr
-
+import requests
 
 main = Blueprint("producto_blueprint", __name__)
+
+@main.route('/saludo', methods=['GET'])
+def obtener_saludo():
+    accept_header = request.headers.get('Accept')
+
+    if 'application/json' in accept_header:
+        return jsonify({'mensaje': 'Wenyas'})
+    else:
+        return 'Wenyas'
+    
+@main.route('/consumir', methods=['GET'])
+def consumir_app_express():
+    url = 'http://localhost:3000/saludo'  # URL de la aplicación de Express
+    try:
+        response = requests.get(url)
+        return response.text
+    except requests.exceptions.RequestException:
+        return 'Error al consumir la aplicación de Express.'
 
 @main.route("/")
 def get_productos():

@@ -136,6 +136,22 @@
                                 <label for="imagenProducto">Imagen:</label>
                                 <input type="file" name="imagenProducto" id="imagenProducto" class="form-control-file">
                             </div>
+                            <div class="form-group">
+                                <label for="stockProducto">Stock:</label>
+                                <input name="stockProducto" id="stockProducto" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="categoriaProducto">Categoría:</label>
+                                <select name="categoriaProducto" id="categoriaProducto" class="form-control" required>
+                                    <option value="">Selecciona una categoría</option>
+                                    <option value="Instrumentos">Instrumentos</option>
+                                    <option value="Guitarras">Guitarras</option>
+                                    <option value="Bajos">Bajos</option>
+                                    <option value="Baterias">Baterias</option>
+                                    <option value="Pianos y Teclados">Pianos y Teclados</option>
+                                    <option value="Audio">Audio</option>
+                                </select>
+                            </div>
                             <button type="submit" class="btn btn-primary">Actualizar producto</button>
                         </form>
                     </div>
