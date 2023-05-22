@@ -2,12 +2,14 @@ from flask import Flask, render_template, request, jsonify, g
 from config import config
 from routes import Producto
 from flask_cors import CORS
+from operator import itemgetter
 import psycopg2
 
 
 app = Flask(__name__)
 
 CORS(app, resources={"*"})
+
 
 def get_productos():
     conn = psycopg2.connect(
@@ -34,6 +36,8 @@ def get_db():
             port="5432"
         )
     return g.db
+
+
 
 @app.route("/")
 def index():
@@ -67,9 +71,27 @@ def registro():
 def about():
     return render_template("about.html")
 
-@app.route('/shop')
+
+@app.route('/shop', methods=['GET', 'POST'])
 def shop():
     productos = get_productos()
+
+    if request.method == 'POST':
+        sort_option = request.form.get('sort_option','')  # asumimos que este es el nombre de tu select input en tu formulario
+
+        if sort_option == "Destacado":
+            # ordenar por destacados
+            # esto dependerá de cómo estén estructurados tus datos
+            pass
+        elif sort_option == "De la A a la Z":
+            # ordenar alfabéticamente
+            productos.sort(
+                key=itemgetter(1))  # asumiendo que el nombre del producto es el segundo elemento en cada tupla
+        elif sort_option == "Por categoría":
+            # ordenar por categoría
+            productos.sort(
+                key=itemgetter(5))  # asumiendo que la categoría del producto es el sexto elemento en cada tupla
+
     return render_template('shop.html', productos=productos)
 
 @app.route("/agregar")

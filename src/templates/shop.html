@@ -104,7 +104,7 @@
             </div>
 
 
-            <div class="col-lg-9">
+         <div class="col-lg-9">
                             <div class="row">
                                 <div class="col-md-6">
                                     <ul class="list-inline shop-top-menu pb-3 pt-1">
@@ -120,15 +120,19 @@
                                     </ul>
                                 </div>
                                 <div class="col-md-6 pb-4">
-                                    <div class="d-flex">
-                                        <select class="form-control">
-                                            <option>Destacado</option>
-                                            <option>De la A a la Z</option>
-                                            <option>Por categoría</option>
-                                        </select>
-                                    </div>
+
+                                        <form method="POST" action="/shop">
+                                            <select class="form-control" name="sort_option" onchange="this.form.submit()">
+                                                <option value="">Seleccione una opción...</option>
+                                                <option value="Destacado">Destacado</option>
+                                                <option value="De la A a la Z">De la A a la Z</option>
+                                                <option value="Por categoría">Por categoría</option>
+                                            </select>
+                                        </form>
+
                                 </div>
                             </div>
+
 
 <div class="row">
 {% for producto in productos %}
