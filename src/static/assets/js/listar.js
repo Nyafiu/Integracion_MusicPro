@@ -1,6 +1,7 @@
 const agregarProducto = document.querySelector("#agregarProducto");
 const listaProducto = document.querySelector("#listarProducto");
 const actualizarProducto = document.querySelector("#actualizarProducto"); // Agregado
+const actualizarProductos = document.querySelector('#actualizar')
 
 async function getProductos() {
     try {
@@ -61,8 +62,57 @@ function renderProducto(producto) {
         descripcionProducto.value = producto.Descripcion;
         imagenProducto.src = `/api/productos/uploads/${producto.Imagen}`;
         stockProducto.value = producto.Stock;
-        categoriaProducto.value = producto.Categoria;
+        categoriaProducto.value = producto.Categoria
     });
+
+    actualizarProductos.addEventListener('click', async () => {
+        try {
+            const nombre = actualizarProducto['nombreProducto'].value;
+            const precio = actualizarProducto['precioProducto'].value;
+            const descripcion = actualizarProducto['descripcionProducto'].value;
+            const stock = actualizarProducto['stockProducto'].value;
+            const categoria = actualizarProducto['categoriaProducto'].value;
+    
+            const imagenInput = actualizarProducto['imagenProducto'];
+            const imagenFile = imagenInput.files[0];
+    
+            const reader = new FileReader();
+            reader.onloadend = async function () {
+                const imagenBase64 = reader.result.split(',')[1];
+    
+                const response = await fetch(`/api/productos/update/${producto.idProductos}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        nombre,
+                        precio,
+                        descripcion,
+                        imagen: imagenBase64,
+                        stock,
+                        categoria
+                    })
+                });
+    
+                const data = await response.json();
+    
+                if (response.ok) {
+                    alert("El producto se actualizó correctamente");
+                    document.getElementById("actualizarProducto").reset();
+                } else {
+                    alert("Hubo un error al actualizar el producto");
+                }
+            };
+    
+            reader.readAsDataURL(imagenFile);
+        } catch (error) {
+            console.error("Error al actualizar el producto:", error);
+        }
+    });
+    
+
+
 
     listaProducto.append(productoItem);
 }

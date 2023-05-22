@@ -1,10 +1,10 @@
-from flask import Flask, render_template, request, jsonify, g
+from flask import Flask, render_template, request, jsonify
 from config import config
 from routes import Producto
 from flask_cors import CORS
 from operator import itemgetter
 import psycopg2
-
+import requests
 
 app = Flask(__name__)
 
@@ -36,6 +36,32 @@ def get_db():
             port="5432"
         )
     return g.db
+
+@app.route('/consumir')
+def consumir_app_express():
+    import requests
+    try:
+        #en response hay que cambiar la url segun corresponde
+        response = requests.get('https://fce7-2800-150-124-1e82-d9df-7b23-279-e87b.ngrok-free.app/saludo')
+        resultado = response.text
+        # Realiza cualquier operación adicional con la variable 'resultado' aquí
+        return resultado
+    except requests.exceptions.RequestException:
+        return 'Error al consumir la API de Express.'
+    
+@app.route('/mostrar_resultado')
+def mostrar_resultado():
+    resultado = consumir_app_express()  # Llamada a la función existente para obtener 'resultado'
+    return render_template('resultado.html', resultado=resultado)
+
+
+@app.route('/saludo', methods=['GET'])
+def obtener_saludo():
+    return 'Hola'
+
+@app.route("/apiPrueba")
+def apiPrueba():
+    return render_template("apiSaludo.html")
 
 
 
@@ -121,6 +147,7 @@ def search():
     # Realizar la búsqueda en función de la consulta (variable "query")
     # Luego, renderiza la plantilla de resultados de búsqueda
     return render_template("search_results.html", query=query)
+
 
 
 @app.errorhandler(404)

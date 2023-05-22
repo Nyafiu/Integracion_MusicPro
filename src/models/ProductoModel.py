@@ -1,5 +1,5 @@
 from database.db import get_connection
-from .entities.Productos import Producto
+from .entities.Productos import Producto, Saludo
 import base64
 
 class ProductoModel:
@@ -64,6 +64,26 @@ class ProductoModel:
                         Producto.Imagen,
                         Producto.Stock,
                         Producto.Categoria,
+                    ),
+                )
+                affected_rows = cursor.rowcount
+                connection.commit()
+            connection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)
+    
+    @classmethod
+    def add_saludo(self, Saludo):
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    """INSERT INTO public.saludo("fechaSaludo", "saludo")
+	                    VALUES (%s, %s);""",
+                    (
+                        Saludo.fechaSaludo,
+                        Saludo.Saludos,
                     ),
                 )
                 affected_rows = cursor.rowcount

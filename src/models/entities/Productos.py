@@ -20,3 +20,18 @@ class Producto:
             "Stock": self.Stock,
             "Categoria": self.Categoria,
         }
+
+class Saludo:
+    def __init__(self, fechaSaludo, Saludos
+    ) -> None:
+        self.fechaSaludo = fechaSaludo
+        self.Saludos = Saludos
+
+    def to_json(self):
+        return {
+            "fechaSaludo": self.fechaSaludo,
+            "Saludos": self.Saludos
+        }
+
+
+    

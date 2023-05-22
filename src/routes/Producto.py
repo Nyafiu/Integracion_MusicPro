@@ -1,31 +1,14 @@
-from flask import Blueprint, jsonify, request, send_file
+from flask import Blueprint, jsonify, request, send_file, render_template
 from models.ProductoModel import ProductoModel
-from models.entities.Productos import Producto
+from models.entities.Productos import Producto, Saludo
 import os
 import base64
 import uuid
+from datetime import datetime
 import imghdr
-import requests
 
 main = Blueprint("producto_blueprint", __name__)
 
-@main.route('/saludo', methods=['GET'])
-def obtener_saludo():
-    accept_header = request.headers.get('Accept')
-
-    if 'application/json' in accept_header:
-        return jsonify({'mensaje': 'Wenyas'})
-    else:
-        return 'Wenyas'
-    
-@main.route('/consumir', methods=['GET'])
-def consumir_app_express():
-    url = 'http://localhost:3000/saludo'  # URL de la aplicación de Express
-    try:
-        response = requests.get(url)
-        return response.text
-    except requests.exceptions.RequestException:
-        return 'Error al consumir la aplicación de Express.'
 
 @main.route("/")
 def get_productos():
@@ -77,10 +60,22 @@ def get_imagen_producto(Nombre):
         print(str(ex))
         return jsonify({"mensaje": "Error al cargar la imagen"}), 500
 
+@main.route("/addSaludo", methods=["POST"])
+def add_saludo():
+    try:
+        fechaSaludo = datetime.now().strftime("%Y-%m-%d %H:%M:%S")  # Obtiene la fecha y hora actual
+        saludos = request.json["Saludos"]
 
+        saludo = Saludo(str(fechaSaludo), saludos)  # Convertir la fecha a tipo str
 
+        affected_rows = ProductoModel.add_saludo(saludo)
 
-
+        if affected_rows == 1:
+            return jsonify({"Fecha": fechaSaludo})  # Devuelve la fecha actual en la respuesta
+        else:
+            return jsonify({"Mensaje": "Fallo en la inserción"}), 500
+    except Exception as ex:
+        return jsonify({"Mensaje": str(ex)}), 500
 
 @main.route("/add", methods=["POST"])
 def add_producto():
@@ -118,10 +113,6 @@ def add_producto():
     except Exception as ex:
         return jsonify({"Mensaje": str(ex)}), 500
 
-
-
-
-
 @main.route("/delete/<idProductos>", methods=["DELETE"])
 def delete_producto(idProductos):
     try:
@@ -139,21 +130,52 @@ def delete_producto(idProductos):
 @main.route("/update/<idProductos>", methods=["PUT"])
 def update_producto(idProductos):
     try:
-        nombre = request.json["nombre"]
-        precio = int(request.json["precio"])
-        descripcion = request.json["descripcion"]
-        imagen = request.json["imagen"]
+        Nombre = request.json["nombre"]
+        Precio = int(request.json["precio"])
+        Descripcion = request.json["descripcion"]
+        Imagen = request.json["imagen"]
         Stock = int(request.json["stock"])
-        Categoria = request.json["categoria"]
+        Categoria = request.json["categoria"] 
         
-        producto = Producto(idProductos, nombre, precio, descripcion, imagen, Stock, Categoria)
-
-        affected_rows = ProductoModel.update_producto(producto)
+        # Obtener el producto existente en la base de datos
+        producto_existente = ProductoModel.get_producto(idProductos)
+        if not producto_existente:
+            return jsonify({"Mensaje": "El producto no existe"}), 404
+        
+        # Actualizar los campos del producto existente
+        producto_existente.Nombre = Nombre
+        producto_existente.Precio = Precio
+        producto_existente.Descripcion = Descripcion
+        producto_existente.Stock = Stock
+        producto_existente.Categoria = Categoria
+        
+        # Verificar si se proporcionó una nueva imagen para actualizar
+        if Imagen:
+            # Decodificar la imagen en base64
+            imagen_decodificada = base64.b64decode(Imagen)
+            
+            # Obtener la extensión de la imagen (por ejemplo, .jpg, .png)
+            extension = imghdr.what("", h=imagen_decodificada)
+            if not extension:
+                raise ValueError("La imagen proporcionada no tiene una extensión válida.")
+            
+            # Guardar la imagen en un archivo en el directorio "uploads"
+            nombre_archivo = Nombre + "." + extension
+            ruta_archivo = os.path.join("src", "static", "uploads", nombre_archivo)
+            with open(ruta_archivo, "wb") as archivo:
+                archivo.write(imagen_decodificada)
+            
+            # Actualizar el campo de imagen del producto existente
+            producto_existente.Imagen = nombre_archivo
+        
+        # Guardar los cambios en el producto existente
+        affected_rows = ProductoModel.update_producto(producto_existente)
 
         if affected_rows == 1:
-            return jsonify({"mensaje": "Producto actualizado exitosamente"})
+            return jsonify({"id": producto_existente.idProductos})
         else:
-            return jsonify({"mensaje": "Producto no actualizado"}), 500
+            return jsonify({"Mensaje": "Fallo en la actualización"}), 500
     except Exception as ex:
-        return jsonify({"mensaje": str(ex)}), 500
+        return jsonify({"Mensaje": str(ex)}), 500
+
 
