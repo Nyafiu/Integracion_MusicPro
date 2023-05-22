@@ -80,10 +80,6 @@ def agregar():
 def listar():
     return render_template("listarProducto.html")
 
-@app.route("/listar2")
-def listar2():
-    return render_template("listar2.html")
-
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
