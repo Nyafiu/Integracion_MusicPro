@@ -165,6 +165,21 @@
     </div>
 {% endfor %}
 </div>
+<div class="pagination justify-content-center">
+    {% if page != 1 %}
+    <a class="btn btn-outline-light mr-2" href="{{ url_for('shop', page=page-1, per_page=per_page) }}">Anterior</a>
+    {% else %}
+    <a class="btn btn-outline-light mr-2 disabled" tabindex="-1" aria-disabled="true">Anterior</a>
+    {% endif %}
+    <span class="align-self-center bg-dark text-white px-2">Página {{ page }}</span>
+    {% if page != last_page %}
+    <a class="btn btn-outline-light ml-2" href="{{ url_for('shop', page=page+1, per_page=per_page) }}">Siguiente</a>
+    {% else %}
+    <a class="btn btn-outline-light ml-2 disabled" tabindex="-1" aria-disabled="true">Siguiente</a>
+    {% endif %}
+</div>
+
+
 
 
     <!-- End Content -->

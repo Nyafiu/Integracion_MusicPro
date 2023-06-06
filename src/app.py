@@ -11,7 +11,7 @@ app = Flask(__name__)
 CORS(app, resources={"*"})
 
 
-def get_productos():
+def get_productos(page=1, per_page=10):
     conn = psycopg2.connect(
         dbname="MusicPro",
         user="postgres",
@@ -20,11 +20,13 @@ def get_productos():
         port="5432"
     )
     cur = conn.cursor()
-    cur.execute("SELECT * FROM productos")
+    offset = (page - 1) * per_page
+    cur.execute("SELECT * FROM productos LIMIT %s OFFSET %s", (per_page, offset))
     productos = cur.fetchall()
     cur.close()
     conn.close()
     return productos
+
 
 def get_db():
     if 'db' not in g:
@@ -100,7 +102,9 @@ def about():
 
 @app.route('/shop', methods=['GET', 'POST'])
 def shop():
-    productos = get_productos()
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 10, type=int)
+    productos = get_productos(page, per_page)
 
     if request.method == 'POST':
         sort_option = request.form.get('sort_option','')  # asumimos que este es el nombre de tu select input en tu formulario
@@ -118,7 +122,7 @@ def shop():
             productos.sort(
                 key=itemgetter(5))  # asumiendo que la categoría del producto es el sexto elemento en cada tupla
 
-    return render_template('shop.html', productos=productos)
+    return render_template('shop.html', productos=productos, page=page, per_page=per_page)
 
 @app.route("/agregar")
 def agregar():
