@@ -4,6 +4,7 @@ from models.entities.Productos import Producto, Saludo
 import os
 import base64
 import uuid
+import requests
 from datetime import datetime
 import imghdr
 
@@ -86,8 +87,7 @@ def add_producto():
         Imagen = request.json["imagen"]
         Stock = int(request.json["stock"])
         Categoria = request.json["categoria"] 
-        idProductos = str(uuid.uuid4())  # Convertir a cadena el ID generado
-        
+        idProductos = str(uuid.uuid4())  # Convertir a cadena el ID generado 
         # Decodificar la imagen en base64
         imagen_decodificada = base64.b64decode(Imagen)
         
@@ -178,4 +178,8 @@ def update_producto(idProductos):
     except Exception as ex:
         return jsonify({"Mensaje": str(ex)}), 500
 
-
+@main.route("/bodega", methods=["GET"])
+def obtenerBodega():
+    response = requests.get("https://musicpro.bemtorres.win/api/v1/bodega/producto")
+    data = response.json()
+    return jsonify(data)

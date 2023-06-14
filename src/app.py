@@ -4,7 +4,7 @@ from routes import Producto
 from flask_cors import CORS
 from operator import itemgetter
 import psycopg2
-import requests
+
 
 app = Flask(__name__)
 
@@ -131,6 +131,10 @@ def listar():
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
+
+@app.route("/bodega")
+def bodega():
+    return render_template("bodega.html")
 
 @app.route('/categorias/<categoria>')
 def categorias(categoria):
