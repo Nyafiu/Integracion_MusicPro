@@ -11,7 +11,7 @@ class Producto:
         self.Categoria = Categoria
 
     def to_json(self):
-        return {
+        product_json = {
             "idProductos": self.idProductos,
             "Nombre": self.Nombre,
             "Precio": self.Precio,
@@ -20,6 +20,8 @@ class Producto:
             "Stock": self.Stock,
             "Categoria": self.Categoria,
         }
+        return product_json
+
 
 class Saludo:
     def __init__(self, fechaSaludo, Saludos

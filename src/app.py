@@ -140,6 +140,10 @@ def contact():
 def bodega():
     return render_template("bodega.html")
 
+@app.route("/tienda")
+def tienda():
+    return render_template("tienda.html")
+
 @app.route('/categorias/<categoria>')
 def categorias(categoria):
     cur = get_db().cursor()

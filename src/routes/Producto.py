@@ -16,7 +16,7 @@ def get_productos():
     try:
         productos = ProductoModel.get_productos()
         productos_json = [producto.to_json() for producto in productos]
-        return jsonify(productos_json)
+        return jsonify(productos=productos_json)
     except Exception as ex:
         return jsonify({"mensaje": str(ex)}), 500
 
@@ -30,10 +30,6 @@ def get_producto(nombre):
             return jsonify({}), 404
     except Exception as ex:
         return jsonify({"Mensaje:": str(ex)}), 500
-
-
-
-import imghdr
 
 @main.route("/uploads/<Nombre>", methods=["GET"])
 def get_imagen_producto(Nombre):
@@ -178,8 +174,15 @@ def update_producto(idProductos):
     except Exception as ex:
         return jsonify({"Mensaje": str(ex)}), 500
 
-@main.route("/bodega", methods=["GET"])
+@main.route("/bodega")
 def obtenerBodega():
-    response = requests.get("https://musicpro.bemtorres.win/api/v1/bodega/producto")
+    url = "http://25.64.199.142:3001/api/productos"
+    token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBydWViYSIsImlkIjoiNjQ4Njg1ZjNiMjY5Y2U3NGFiNGM3N2VlIiwiaWF0IjoxNjg2OTQzOTc1fQ.vr3jouIQaxSZ2zyELSc4c4r2ayKSPHWCthoZoODragg"
+
+    headers = {
+        "Auth-token": token
+    }
+
+    response = requests.get(url, headers=headers)
     data = response.json()
-    return jsonify(data)
+    return jsonify(productos=data)

@@ -35,9 +35,9 @@ const mostrarBodega = data => {
         console.log(producto);
         templateCard.querySelector('h1').textContent = producto.nombre;
         templateCard.querySelector('h3').textContent = producto.precio;
-        templateCard.querySelector('p').textContent = producto.descripcion;
-        templateCard.querySelector('img').src = producto.asset;
-        templateCard.querySelector('.btn-dark').dataset.id = producto.id;
+        templateCard.querySelector('p').textContent = producto.subcategoria;
+        templateCard.querySelector('img').src = producto.imagen;
+        templateCard.querySelector('.btn-dark').dataset.id = producto._id;
         const clone = templateCard.cloneNode(true);
         fragment.appendChild(clone);
     });
@@ -52,27 +52,14 @@ const addCarrito = e =>{
     e.stopPropagation()
 }
 
-const setCarrito = objeto => {
-    const producto = {
-        id: objeto.querySelector(".btn-dark").dataset.id,
-        nombre: objeto.querySelector("h1").textContent,
-        precio: objeto.querySelector("h3").textContent,
-        cantidad: 1
-    }    
-    if(carrito.hasOwnProperty(producto.id)){
-        producto.cantidad = carrito[producto.id].cantidad + 1
-    }
 
-    carrito[producto.id] = {...producto}
-    mostrarCarrito()
-    mostrarFooter()
-}
 
 const mostrarCarrito = () => {
     console.log(carrito)
+    indice = 1
     items.innerHTML = ''
     Object.values(carrito).forEach(producto => {
-        templateCarrito.querySelector('th').textContent = producto.id
+        templateCarrito.querySelector('th').textContent = indice++
         templateCarrito.querySelectorAll('td')[0].textContent = producto.nombre
         templateCarrito.querySelectorAll('td')[1].textContent = producto.cantidad
         templateCarrito.querySelector('.btn-info').dataset.id = producto.id
@@ -112,6 +99,21 @@ const mostrarFooter = () => {
     }) 
 }
 
+const setCarrito = objeto => {
+    const producto = {
+        id: objeto.querySelector(".btn-dark").dataset.id,
+        nombre: objeto.querySelector("h1").textContent,
+        precio: objeto.querySelector("h3").textContent,
+        cantidad: 1
+    }    
+    if(carrito.hasOwnProperty(producto.id)){
+        producto.cantidad = carrito[producto.id].cantidad + 1
+    }
+
+    carrito[producto.id] = {...producto}
+    mostrarCarrito()
+    mostrarFooter()
+}
 const btnAccion = e => {
     if (e.target.classList.contains('btn-info')) {
         const producto = carrito[e.target.dataset.id]

@@ -9,10 +9,7 @@
 </head>
 <body>
 
-    
-
-
-    <h1>Datos de la Bodega</h1>
+    <h1>Tienda</h1>
     <ul id="bodega-list"></ul>
 
     <div class="container">
@@ -37,6 +34,8 @@
         </table>
         <div class="row" id="cards"></div>
     </div>
+    <div id="boleta"></div>
+
     
     <template id="template-card">
         <div class="col-12 mb-2 col-md-12">
@@ -60,6 +59,11 @@
             </button>
         </td>
         <td class="font-weight-bold">$ <span>5000</span></td>
+        <td>
+            <label for="">Envio a domicilio</label>
+            <input type="text" placeholder="Coloque su domicilio" class="domicilio">
+            <button id="btn-generar-boleta" class="btn btn-success" required>Pagar</button>
+        </td>
     </template>
 
     <template id="template-carrito">
@@ -80,6 +84,6 @@
     </template>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../static/assets/js/bodegaV2.js"></script>
+    <script src="../static/assets/js/carrito.js"></script>
 </body>
 </html>

@@ -119,9 +119,11 @@ function renderProducto(producto) {
 
 async function renderProductos() {
     listaProducto.innerHTML = "";
-    const productos = await getProductos();
+    const response = await getProductos();
+    const productos = response.productos; // Accedes al array de productos con el nombre "productos"
     productos.forEach(renderProducto);
 }
+
 
 window.addEventListener("DOMContentLoaded", renderProductos);
 
