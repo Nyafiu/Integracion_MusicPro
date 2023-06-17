@@ -7,6 +7,13 @@ const footer = document.getElementById("footer")
 const fragment = document.createDocumentFragment();
 let carrito = {}
 
+
+const fechaActual = new Date();
+const dia = fechaActual.getDate();
+const mes = fechaActual.getMonth() + 1;
+const anio = fechaActual.getFullYear();
+const fechaCompleta = `${anio}-${mes < 10 ? '0' + mes : mes}-${dia < 10 ? '0' + dia : dia}`;
+
 document.addEventListener("DOMContentLoaded", () => {
     fetchData();
 });
@@ -21,6 +28,23 @@ const fetchData = async () => {
         console.log(error);
     }
 };
+
+const templateBoleta = document.createElement("template");
+templateBoleta.innerHTML = `
+    <div class="boleta">
+        <h2>Boleta de compra</h2>
+        <h4>Id boleta:</h4>
+        <p id="id-boleta"></p>
+        <hr>
+        <h5>Fecha compra:</h5>
+        <p id="fecha-boleta"></p>
+        <h5>Producto:</h5>
+        <div id="boleta-items"></div>
+        <hr>
+        <p>Total a pagar: $<span id="boleta-total"></span></p>
+    </div>
+`;
+
 
 cards.addEventListener("click", e =>{
     addCarrito(e)
@@ -43,6 +67,20 @@ const mostrarBodega = data => {
     });
     cards.appendChild(fragment);
 };
+
+function generarIdAleatoria(longitud) {
+    let id = '';
+    const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+    for (let i = 0; i < longitud; i++) {
+      const indice = Math.floor(Math.random() * caracteres.length);
+        id += caracteres.charAt(indice);
+    }
+
+    return id;
+}  
+  // Ejemplo de uso:
+const idAleatoria = generarIdAleatoria(8);
 
 const addCarrito = e =>{
     //console.log(e.target.classList.contains('btn-dark'))
@@ -71,6 +109,7 @@ const mostrarCarrito = () => {
     items.appendChild(fragment)
 
     mostrarFooter()
+    mostrarBoleta()
 }
 
 const mostrarFooter = () => {
@@ -132,3 +171,24 @@ const btnAccion = e => {
     }
     e.stopPropagation()
 }
+
+const mostrarBoleta = () => {
+    const boletaContainer = document.getElementById("boleta");
+    boletaContainer.innerHTML = "";
+
+    const boletaItems = Object.values(carrito).map((producto) => `
+        <p>${producto.nombre} - Cantidad: ${producto.cantidad}</p>
+    `).join("");
+
+    const boletaTotal = Object.values(carrito).reduce((total, producto) => {
+        return total + (producto.cantidad * producto.precio);
+    }, 0);
+
+    const clone = templateBoleta.content.cloneNode(true);
+    clone.getElementById("boleta-items").innerHTML = boletaItems;
+    clone.getElementById("boleta-total").textContent = boletaTotal.toFixed(2);
+    clone.getElementById("fecha-boleta").textContent = fechaCompleta;
+    clone.getElementById("id-boleta").textContent = idAleatoria;
+
+    boletaContainer.appendChild(clone);
+};
