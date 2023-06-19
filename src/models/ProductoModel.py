@@ -1,5 +1,5 @@
 from database.db import get_connection
-from .entities.Productos import Producto, Saludo
+from .entities.Productos import Producto, BoletaBodega, Boleta
 import base64
 
 class ProductoModel:
@@ -141,25 +141,69 @@ class ProductoModel:
 
     @classmethod
     def add_boleta(self, Boleta):
-            try:
-                connection = get_connection()
-                with connection.cursor() as cursor:
-                    cursor.execute(
-                        """INSERT INTO public.boleta(
-                                "idBoleta", "domicilio", "productos", "fechaBoleta", "fechaEntrega", "total")
-                                VALUES (%s, %s, %s, %s, %s, %s);""",
-                        (
-                            Boleta.idBoleta,
-                            Boleta.domicilio,
-                            Boleta.productos,
-                            Boleta.fechaBoleta,
-                            Boleta.fechaEntrega,
-                            Boleta.total,
-                        ),
-                    )
-                    affected_rows = cursor.rowcount
-                    connection.commit()
-                connection.close()
-                return affected_rows
-            except Exception as ex:
-                raise Exception(ex)
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    """INSERT INTO public.boleta(
+	                        "idBoleta", "domicilio", "productos", "fechaBoleta", "fechaEntrega", "total")
+	                        VALUES (%s, %s, %s, %s, %s, %s);""",
+                    (
+                        Boleta.idBoleta,
+                        Boleta.domicilio,
+                        Boleta.productos,
+                        Boleta.fechaBoleta,
+                        Boleta.fechaEntrega,
+                        Boleta.total,
+                    ),
+                )
+                affected_rows = cursor.rowcount
+                connection.commit()
+            connection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)
+        
+    @classmethod
+    def get_boleta(self):
+        try:
+            connection = get_connection()
+            boletas = []
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    """SELECT "idBoleta", domicilio, productos, "fechaBoleta", "fechaEntrega", total
+                    FROM public.boleta;"""
+                )
+                resultset = cursor.fetchall()
+
+                for row in resultset:
+                    boleta = Boleta(row[0], row[1], row[2], row[3], row[4], row[5])
+                    boletas.append(boleta)
+
+            connection.close()
+            return boletas
+        except Exception as ex:
+            raise Exception(ex)
+        
+    @classmethod
+    def add_boletaBodega(self, BoletaBodega):
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    """INSERT INTO public."boletaBodega"(
+	                "idBoleta", "fechaCompra", productos, total)
+	                VALUES (%s, %s, %s, %s);;""",
+                    (
+                        BoletaBodega.idBoleta,
+                        BoletaBodega.productos,
+                        BoletaBodega.fechaBoleta,
+                        BoletaBodega.total,
+                    ),
+                )
+                affected_rows = cursor.rowcount
+                connection.commit()
+            connection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)
