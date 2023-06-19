@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request, send_file, render_template
 from models.ProductoModel import ProductoModel
-from models.entities.Productos import Producto, Saludo
+from models.entities.Productos import Producto, Saludo, Boleta, BoletaBodega
 import os
 import base64
 import uuid
@@ -176,7 +176,7 @@ def update_producto(idProductos):
 
 @main.route("/bodega")
 def obtenerBodega():
-    url = "http://25.64.199.142:3001/api/productos"
+    url = "https://musicproocyberedge.onrender.com/api/productos"
     token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBydWViYSIsImlkIjoiNjQ4Njg1ZjNiMjY5Y2U3NGFiNGM3N2VlIiwiaWF0IjoxNjg2OTQzOTc1fQ.vr3jouIQaxSZ2zyELSc4c4r2ayKSPHWCthoZoODragg"
 
     headers = {
@@ -186,3 +186,43 @@ def obtenerBodega():
     response = requests.get(url, headers=headers)
     data = response.json()
     return jsonify(productos=data)
+
+@main.route("/addBoleta", methods=["POST"])
+def add_boleta():
+    try:
+        idBoleta = request.json.get("idBoleta")
+        domicilio = request.json.get("domicilio")
+        productos = request.json.get("productos")
+        fechaBoleta = request.json.get("fechaBoleta")  # Corregido aquí
+        fechaEntrega = request.json.get("fechaEntrega")
+        total = request.json.get("total")
+
+        boleta = Boleta(idBoleta, domicilio, productos, fechaBoleta, fechaEntrega, total)
+
+        affected_rows = ProductoModel.add_boleta(boleta)
+
+        if affected_rows == 1:
+            return jsonify({"idBoleta": idBoleta})
+        else:
+            return jsonify({"Mensaje": "No existe"}), 500
+    except Exception as ex:
+        return jsonify({"Mensaje": str(ex)}), 500
+
+@main.route("/addBoletaBodega", methods=["POST"])
+def add_boletaBodega():
+    try:
+        idBoleta = request.json.get("idBoleta")
+        productos = request.json.get("productos")
+        fechaBoleta = request.json.get("fechaBoleta")
+        total = request.json.get("total")
+
+        boleta = BoletaBodega(idBoleta, productos, fechaBoleta, total)
+
+        affected_rows = ProductoModel.add_boletaBodega(boleta)
+
+        if affected_rows == 1:
+            return jsonify({"idBoleta": idBoleta})
+        else:
+            return jsonify({"Mensaje": "No existe"}), 500
+    except Exception as ex:
+        return jsonify({"Mensaje": str(ex)}), 500

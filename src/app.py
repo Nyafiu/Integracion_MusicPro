@@ -1,10 +1,26 @@
-from flask import Flask, g, render_template, request, jsonify
+
 from config import config
 from routes import Producto
 from flask_cors import CORS
 from operator import itemgetter
 import psycopg2
-
+from flask_principal import Principal, Permission, RoleNeed, identity_loaded, UserNeed
+from flask import Flask, g, render_template, request, jsonify, g, session, url_for, send_file, flash, redirect
+from flask_principal import Principal, Permission, RoleNeed, identity_loaded, UserNeed
+from config import config
+from routes import Producto
+from flask_cors import CORS
+from operator import itemgetter
+import psycopg2
+import requests
+from io import BytesIO
+import json
+from datetime import datetime
+import psycopg2.extras
+import re
+from werkzeug.security import generate_password_hash, check_password_hash
+from functools import wraps
+from flask import session, redirect, url_for
 
 app = Flask(__name__)
 
@@ -38,6 +54,200 @@ def get_db():
             port="5432"
         )
     return g.db
+
+#--------------- login user
+
+
+conn = psycopg2.connect(
+        dbname="MusicPro",
+        user="postgres",
+        password="1234",
+        host="localhost",
+        port="5432")
+
+def login_required(rol='user'):
+    def decorator(view_func):
+        @wraps(view_func)
+        def wrapped_view(*args, **kwargs):
+            if 'loggedin' in session and session['loggedin'] and session['rol'] == rol:
+                return view_func(*args, **kwargs)
+            else:
+                return redirect(url_for('login_user'))
+        return wrapped_view
+    return decorator
+
+def admin_required(view_func):
+    @wraps(view_func)
+    def wrapped_view(*args, **kwargs):
+        if 'loggedin' in session and session['loggedin'] and session['rol'] == 'admin':
+            return view_func(*args, **kwargs)
+        else:
+            return redirect(url_for('login_admin'))
+    return wrapped_view
+
+@app.route('/login/user', methods=['GET', 'POST'])
+def login_user():
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
+        username = request.form['username']
+        password = request.form['password']
+
+        cursor.execute('SELECT id, username, password, rol FROM users WHERE username = %s', (username,))
+        account = cursor.fetchone()
+
+        if account:
+            password_hash = account['password']
+
+            if check_password_hash(password_hash, password):
+                if account['rol'] == 'user':
+                    session['loggedin'] = True
+                    session['id'] = account['id']
+                    session['username'] = account['username']
+                    session['rol'] = account['rol']
+                    return redirect(url_for('shop'))
+                else:
+                    flash('You are not authorized to access this page.')
+            else:
+                flash('Incorrect username/password')
+        else:
+            flash('Incorrect username/password')
+
+    return render_template('login_user.html')
+
+@app.route('/login/admin', methods=['GET', 'POST'])
+def login_admin():
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
+        username = request.form['username']
+        password = request.form['password']
+
+        cursor.execute('SELECT id, username, password, rol FROM users WHERE username = %s', (username,))
+        account = cursor.fetchone()
+
+        if account:
+            password_hash = account['password']
+
+            if check_password_hash(password_hash, password):
+                if account['rol'] == 'admin':
+                    session['loggedin'] = True
+                    session['id'] = account['id']
+                    session['username'] = account['username']
+                    session['rol'] = account['rol']
+                    return redirect(url_for('index'))
+                else:
+                    flash('You are not authorized to access this page.')
+            else:
+                flash('Incorrect username/password')
+        else:
+            flash('Incorrect username/password')
+
+    return render_template('login_admin.html')
+
+@app.route('/register/user', methods=['GET', 'POST'])
+def register_user():
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    # Check if "username", "password" and "email" POST requests exist (user submitted form)
+    if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form:
+        # Create variables for easy access
+        fullname = request.form['fullname']
+        username = request.form['username']
+        password = request.form['password']
+        email = request.form['email']
+        rol = 'user'  # Assign 'user' role
+
+        _hashed_password = generate_password_hash(password)
+
+        # Check if account exists
+        cursor.execute('SELECT * FROM users WHERE username = %s', (username,))
+        account = cursor.fetchone()
+
+        if account:
+            flash('Account already exists!')
+        elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
+            flash('Invalid email address!')
+        elif not re.match(r'[A-Za-z0-9]+', username):
+            flash('Username must contain only characters and numbers!')
+        elif not username or not password or not email:
+            flash('Please fill out the form!')
+        else:
+            # Account doesn't exist and the form data is valid, insert new account into users table
+            cursor.execute("INSERT INTO users (fullname, username, password, email, rol) VALUES (%s,%s,%s,%s,%s)",
+                           (fullname, username, _hashed_password, email, rol))
+            conn.commit()
+            flash('You have successfully registered as a user!')
+
+    return render_template('register_user.html')
+
+@app.route('/register/admin', methods=['GET', 'POST'])
+def register_admin():
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    # Check if "username", "password" and "email" POST requests exist (admin submitted form)
+    if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form:
+        # Create variables for easy access
+        fullname = request.form['fullname']
+        username = request.form['username']
+        password = request.form['password']
+        email = request.form['email']
+        rol = 'admin'  # Assign 'admin' role
+
+        _hashed_password = generate_password_hash(password)
+
+        # Check if account exists
+        cursor.execute('SELECT * FROM users WHERE username = %s', (username,))
+        account = cursor.fetchone()
+
+        if account:
+            flash('Account already exists!')
+        elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
+            flash('Invalid email address!')
+        elif not re.match(r'[A-Za-z0-9]+', username):
+            flash('Username must contain only characters and numbers!')
+        elif not username or not password or not email:
+            flash('Please fill out the form!')
+        else:
+            # Account doesn't exist and the form data is valid, insert new account into users table
+            cursor.execute("INSERT INTO users (fullname, username, password, email, rol) VALUES (%s,%s,%s,%s,%s)",
+                           (fullname, username, _hashed_password, email, rol))
+            conn.commit()
+            flash('You have successfully registered as an admin!')
+
+    return render_template('register_admin.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('loggedin', None)
+    session.pop('id', None)
+    session.pop('username', None)
+    return redirect(url_for('index'))
+
+
+@app.route('/profile')
+@login_required(rol='user')
+def profile():
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    if 'loggedin' in session:
+        cursor.execute('SELECT * FROM users WHERE id = %s', [session['id']])
+        account = cursor.fetchone()
+        return render_template('profile.html', account=account)
+
+    return redirect(url_for('login'))
+
+@app.route('/admin/profile')
+@admin_required
+def admin_profile():
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    if 'loggedin' in session:
+        cursor.execute('SELECT * FROM users WHERE id = %s', [session['id']])
+        account = cursor.fetchone()
+        return render_template('admin_profile.html', account=account)
+
+    return redirect(url_for('login'))
 
 @app.route('/consumir')
 def consumir_app_express():
@@ -137,6 +347,7 @@ def contact():
     return render_template("contact.html")
 
 @app.route("/bodega")
+@admin_required
 def bodega():
     return render_template("bodega.html")
 

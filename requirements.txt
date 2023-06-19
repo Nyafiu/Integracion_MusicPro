@@ -1,4 +1,6 @@
-Flask
+Flask~=2.3.2
 python-decouple
-psycopg2
+psycopg2~=2.9.6
 flask_cors
+
+requests~=2.30.0

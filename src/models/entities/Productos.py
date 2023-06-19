@@ -35,5 +35,49 @@ class Saludo:
             "Saludos": self.Saludos
         }
 
+class Boleta:
+    def init(
+        self, idBoleta, domicilio=None, productos=None,fechaBoleta=None, fechaEntrega=None, total=None
+    ) -> None:
+        self.idBoleta = idBoleta
+        self.domicilio = domicilio
+        self.productos = productos
+        self.fechaBoleta = fechaBoleta
+        self.fechaEntrega = fechaEntrega
+        self.total = total
+
+
+    def to_json_boleta(self):
+        boleta_json = {
+            "idBoleta": self.idBoleta,
+            "domicilio": self.domicilio,
+            "productos": self.productos,
+            "fechaBoleta": self.fechaBoleta,
+            "fechaEntrega": self.fechaEntrega,
+            "total": self.total,
+
+        }
+        return boleta_json
+
+class BoletaBodega:
+    def init(
+        self, idBoleta, productos=None,fechaBoleta=None, total=None
+    ) -> None:
+        self.idBoleta = idBoleta
+        self.productos = productos
+        self.fechaBoleta = fechaBoleta
+        self.total = total
+
+
+    def to_json_boletaBodega(self):
+        boletaBodega_json = {
+            "idBoleta": self.idBoleta,
+            "domicilio": self.domicilio,
+            "productos": self.productos,
+            "fechaBoleta": self.fechaBoleta,
+            "total": self.total,
+
+        }
+        return boletaBodega_json
 
     

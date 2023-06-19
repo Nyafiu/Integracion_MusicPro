@@ -1,6 +1,7 @@
 const templateCard = document.getElementById("template-card").content;
 const templateFooter = document.getElementById("template-footer").content;
 const templateCarrito = document.getElementById("template-carrito").content;
+const templateBoleta = document.getElementById("template-boleta").content;
 const cards = document.getElementById("cards");
 const items = document.getElementById("items");
 const footer = document.getElementById("footer")
@@ -28,23 +29,6 @@ const fetchData = async () => {
         console.log(error);
     }
 };
-
-const templateBoleta = document.createElement("template");
-templateBoleta.innerHTML = `
-    <div class="boleta">
-        <h2>Boleta de compra</h2>
-        <h4>Id boleta:</h4>
-        <p id="id-boleta"></p>
-        <hr>
-        <h5>Fecha compra:</h5>
-        <p id="fecha-boleta"></p>
-        <h5>Producto:</h5>
-        <div id="boleta-items"></div>
-        <hr>
-        <p>Total a pagar: $<span id="boleta-total"></span></p>
-    </div>
-`;
-
 
 cards.addEventListener("click", e =>{
     addCarrito(e)
@@ -78,7 +62,7 @@ function generarIdAleatoria(longitud) {
     }
 
     return id;
-}  
+}
   // Ejemplo de uso:
 const idAleatoria = generarIdAleatoria(8);
 
@@ -117,16 +101,16 @@ const mostrarFooter = () => {
     if (Object.keys(carrito).length === 0){
         footer.innerHTML = `
         <th scope="row" colspan="5">Carrito Vacio</th>
-        `    
+        `
         return
-    }   
+    }
     const nCantidad = Object.values(carrito).reduce((acc, {cantidad}) => acc + cantidad,0)
     const nPrecio = Object.values(carrito).reduce((acc, {cantidad, precio}) => acc + precio * cantidad,0)
     //console.log(nPrecio)
 
     templateFooter.querySelectorAll('td')[0].textContent = nCantidad
     templateFooter.querySelector('span').textContent = nPrecio
-    
+
     const clone = templateFooter.cloneNode(true)
     fragment.appendChild(clone)
     footer.appendChild(fragment)
@@ -135,7 +119,7 @@ const mostrarFooter = () => {
     btnVaciar.addEventListener("click", () => {
         carrito = {}
         mostrarCarrito()
-    }) 
+    })
 }
 
 const setCarrito = objeto => {
@@ -144,7 +128,7 @@ const setCarrito = objeto => {
         nombre: objeto.querySelector("h1").textContent,
         precio: objeto.querySelector("h3").textContent,
         cantidad: 1
-    }    
+    }
     if(carrito.hasOwnProperty(producto.id)){
         producto.cantidad = carrito[producto.id].cantidad + 1
     }
@@ -176,7 +160,7 @@ const mostrarBoleta = () => {
     const boletaContainer = document.getElementById("boleta");
     boletaContainer.innerHTML = "";
 
-    const boletaItems = Object.values(carrito).map((producto) => `
+    const boletaItems = Object.values(carrito).map(producto => `
         <p>${producto.nombre} - Cantidad: ${producto.cantidad}</p>
     `).join("");
 
@@ -184,11 +168,46 @@ const mostrarBoleta = () => {
         return total + (producto.cantidad * producto.precio);
     }, 0);
 
-    const clone = templateBoleta.content.cloneNode(true);
+    const clone = templateBoleta.cloneNode(true);
     clone.getElementById("boleta-items").innerHTML = boletaItems;
     clone.getElementById("boleta-total").textContent = boletaTotal.toFixed(2);
     clone.getElementById("fecha-boleta").textContent = fechaCompleta;
-    clone.getElementById("id-boleta").textContent = idAleatoria;
+    clone.getElementById("id-boleta").textContent = generarIdAleatoria(8);
 
     boletaContainer.appendChild(clone);
+    const btnAgregarBoleta = document.getElementById('btn-agregar-boleta');
+    btnAgregarBoleta.addEventListener("click", agregarBoleta);
+};
+
+const agregarBoleta = async () => {
+    const idBoleta = document.getElementById("id-boleta").textContent;
+    const fechaBoleta = document.getElementById("fecha-boleta").textContent;
+    const productos = document.getElementById("boleta-items").textContent;
+    const total = document.getElementById("boleta-total").textContent;
+
+    const data = {
+        idBoleta,
+        fechaBoleta,
+        productos,
+        total
+    };
+    console.log(data);
+
+    try {
+        const response = await fetch("/api/productos/addBoletaBodega", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            console.log("Boleta agregada correctamente");
+        } else {
+            console.error("Error al agregar la boleta");
+        }
+    } catch (error) {
+        console.error("Error en la solicitud:", error);
+    }
 };

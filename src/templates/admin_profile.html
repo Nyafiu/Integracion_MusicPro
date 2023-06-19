@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Profile</title>
+</head>
+<body>
+    <h2>Admin Profile</h2>
+    <p><strong>Full Name:</strong> {{ account['fullname'] }}</p>
+    <p><strong>Username:</strong> {{ account['username'] }}</p>
+    <p><strong>Email:</strong> {{ account['email'] }}</p>
+    <p><strong>Role:</strong> {{ account['rol'] }}</p>
+    <p><a href="{{ url_for('logout') }}">Logout</a></p>
+</body>
+</html>

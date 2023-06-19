@@ -138,3 +138,28 @@ class ProductoModel:
             return affected_rows
         except Exception as ex:
             raise Exception(ex)
+
+    @classmethod
+    def add_boleta(self, Boleta):
+            try:
+                connection = get_connection()
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        """INSERT INTO public.boleta(
+                                "idBoleta", "domicilio", "productos", "fechaBoleta", "fechaEntrega", "total")
+                                VALUES (%s, %s, %s, %s, %s, %s);""",
+                        (
+                            Boleta.idBoleta,
+                            Boleta.domicilio,
+                            Boleta.productos,
+                            Boleta.fechaBoleta,
+                            Boleta.fechaEntrega,
+                            Boleta.total,
+                        ),
+                    )
+                    affected_rows = cursor.rowcount
+                    connection.commit()
+                connection.close()
+                return affected_rows
+            except Exception as ex:
+                raise Exception(ex)
