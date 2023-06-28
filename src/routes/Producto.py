@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request, send_file, render_template
 from models.ProductoModel import ProductoModel
-from models.entities.Productos import Producto, Boleta, BoletaBodega
+from models.entities.Productos import Producto, Saludo, Boleta, BoletaBodega
 import os
 import base64
 import uuid
@@ -207,7 +207,7 @@ def add_boleta():
             return jsonify({"Mensaje": "No existe"}), 500
     except Exception as ex:
         return jsonify({"Mensaje": str(ex)}), 500
-    
+
 @main.route("/addBoletaBodega", methods=["POST"])
 def add_boletaBodega():
     try:
@@ -226,14 +226,3 @@ def add_boletaBodega():
             return jsonify({"Mensaje": "No existe"}), 500
     except Exception as ex:
         return jsonify({"Mensaje": str(ex)}), 500
-
-
-    
-@main.route("/listarBoletas")
-def listar_boletas():
-    try:
-        boletas = ProductoModel.get_boleta()
-        boletas_json = [boleta.to_json_boleta() for boleta in boletas]
-        return jsonify(boletas_json)
-    except Exception as ex:
-        return jsonify({"mensaje": str(ex)}), 500

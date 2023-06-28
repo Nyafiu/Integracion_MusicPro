@@ -22,6 +22,19 @@ class Producto:
         }
         return product_json
 
+
+class Saludo:
+    def __init__(self, fechaSaludo, Saludos
+    ) -> None:
+        self.fechaSaludo = fechaSaludo
+        self.Saludos = Saludos
+
+    def to_json(self):
+        return {
+            "fechaSaludo": self.fechaSaludo,
+            "Saludos": self.Saludos
+        }
+
 class Boleta:
     def __init__(self, idBoleta, domicilio, productos, fechaBoleta, fechaEntrega, total):
         self.idBoleta = idBoleta
@@ -51,14 +64,16 @@ class BoletaBodega:
         self.fechaBoleta = fechaBoleta
         self.total = total
 
+
     def to_json_boletaBodega(self):
         boletaBodega_json = {
             "idBoleta": self.idBoleta,
+            "domicilio": self.domicilio,
             "productos": self.productos,
             "fechaBoleta": self.fechaBoleta,
             "total": self.total,
+
         }
         return boletaBodega_json
-
 
     

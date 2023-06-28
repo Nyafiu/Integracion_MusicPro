@@ -1,4 +1,3 @@
-
 from config import config
 from routes import Producto
 from flask_cors import CORS
@@ -55,15 +54,17 @@ def get_db():
         )
     return g.db
 
-#--------------- login user
+
+# --------------- login user
 
 
 conn = psycopg2.connect(
-        dbname="MusicPro",
-        user="postgres",
-        password="1234",
-        host="localhost",
-        port="5432")
+    dbname="MusicPro",
+    user="postgres",
+    password="1234",
+    host="localhost",
+    port="5432")
+
 
 def login_required(rol='user'):
     def decorator(view_func):
@@ -73,8 +74,11 @@ def login_required(rol='user'):
                 return view_func(*args, **kwargs)
             else:
                 return redirect(url_for('login_user'))
+
         return wrapped_view
+
     return decorator
+
 
 def admin_required(view_func):
     @wraps(view_func)
@@ -83,7 +87,9 @@ def admin_required(view_func):
             return view_func(*args, **kwargs)
         else:
             return redirect(url_for('login_admin'))
+
     return wrapped_view
+
 
 @app.route('/login/user', methods=['GET', 'POST'])
 def login_user():
@@ -115,6 +121,7 @@ def login_user():
 
     return render_template('login_user.html')
 
+
 @app.route('/login/admin', methods=['GET', 'POST'])
 def login_admin():
     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -135,7 +142,7 @@ def login_admin():
                     session['id'] = account['id']
                     session['username'] = account['username']
                     session['rol'] = account['rol']
-                    return redirect(url_for('index'))
+                    return redirect(url_for('admin'))
                 else:
                     flash('You are not authorized to access this page.')
             else:
@@ -144,6 +151,7 @@ def login_admin():
             flash('Incorrect username/password')
 
     return render_template('login_admin.html')
+
 
 @app.route('/register/user', methods=['GET', 'POST'])
 def register_user():
@@ -181,6 +189,7 @@ def register_user():
 
     return render_template('register_user.html')
 
+
 @app.route('/register/admin', methods=['GET', 'POST'])
 def register_admin():
     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -217,6 +226,7 @@ def register_admin():
 
     return render_template('register_admin.html')
 
+
 @app.route('/logout')
 def logout():
     session.pop('loggedin', None)
@@ -237,6 +247,7 @@ def profile():
 
     return redirect(url_for('login'))
 
+
 @app.route('/admin/profile')
 @admin_required
 def admin_profile():
@@ -249,18 +260,20 @@ def admin_profile():
 
     return redirect(url_for('login'))
 
+
 @app.route('/consumir')
 def consumir_app_express():
     import requests
     try:
-        #en response hay que cambiar la url segun corresponde
+        # en response hay que cambiar la url segun corresponde
         response = requests.get('https://fce7-2800-150-124-1e82-d9df-7b23-279-e87b.ngrok-free.app/saludo')
         resultado = response.text
         # Realiza cualquier operación adicional con la variable 'resultado' aquí
         return resultado
     except requests.exceptions.RequestException:
         return 'Error al consumir la API de Express.'
-    
+
+
 @app.route('/mostrar_resultado')
 def mostrar_resultado():
     resultado = consumir_app_express()  # Llamada a la función existente para obtener 'resultado'
@@ -271,43 +284,41 @@ def mostrar_resultado():
 def obtener_saludo():
     return 'Hola'
 
+
 @app.route("/apiPrueba")
 def apiPrueba():
     return render_template("apiSaludo.html")
-
 
 
 @app.route("/")
 def index():
     return render_template("index.html")
 
+
 @app.route("/login")
 def login():
     return render_template("loginCliente.html")
+
 
 @app.route("/loginAdmin")
 def loginAdmin():
     return render_template("loginAdmin.html")
 
+
 @app.route("/admin")
+@admin_required
 def admin():
     return render_template("vistaAdmin.html")
+
 
 @app.route("/tables")
 def tables():
     return render_template("tables.html")
 
-@app.route("/perfilAdmin")
-def user():
-    return render_template("perfilAdmin.html")
 
 @app.route("/registro")
 def registro():
     return render_template("registroCliente.html")
-
-@app.route("/about")
-def about():
-    return render_template("about.html")
 
 
 @app.route('/shop', methods=['GET', 'POST'])
@@ -317,7 +328,8 @@ def shop():
     productos = get_productos(page, per_page)
 
     if request.method == 'POST':
-        sort_option = request.form.get('sort_option','')  # asumimos que este es el nombre de tu select input en tu formulario
+        sort_option = request.form.get('sort_option',
+                                       '')  # asumimos que este es el nombre de tu select input en tu formulario
 
         if sort_option == "Destacado":
             # ordenar por destacados
@@ -334,26 +346,29 @@ def shop():
 
     return render_template('shop.html', productos=productos, page=page, per_page=per_page)
 
+
 @app.route("/agregar")
+@admin_required
 def agregar():
     return render_template("agregarProducto.html")
 
+
 @app.route("/listar")
+@admin_required
 def listar():
     return render_template("listarProducto.html")
 
-@app.route("/contact")
-def contact():
-    return render_template("contact.html")
 
 @app.route("/bodega")
 @admin_required
 def bodega():
     return render_template("bodega.html")
 
+
 @app.route("/tienda")
 def tienda():
     return render_template("tienda.html")
+
 
 @app.route('/categorias/<categoria>')
 def categorias(categoria):
@@ -363,14 +378,12 @@ def categorias(categoria):
     return render_template('shop.html', productos=productos)
 
 
-
 @app.route("/search")
 def search():
     query = request.args.get("q", "")
     # Realizar la búsqueda en función de la consulta (variable "query")
     # Luego, renderiza la plantilla de resultados de búsqueda
     return render_template("search_results.html", query=query)
-
 
 
 @app.errorhandler(404)

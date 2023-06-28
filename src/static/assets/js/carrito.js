@@ -173,7 +173,7 @@ const mostrarBoleta = () => {
     boletaContainer.appendChild(clone);
     const btnAgregarBoleta = document.getElementById('btn-agregar-boleta');
     btnAgregarBoleta.addEventListener("click", agregarBoleta);
-    
+
 };
 
 const agregarBoleta = async () => {
@@ -207,5 +207,3 @@ const agregarBoleta = async () => {
         console.error("Error en la solicitud:", error);
     }
 };
-
-

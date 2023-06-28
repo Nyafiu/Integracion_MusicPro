@@ -62,7 +62,7 @@ function generarIdAleatoria(longitud) {
     }
 
     return id;
-}  
+}
   // Ejemplo de uso:
 const idAleatoria = generarIdAleatoria(8);
 
@@ -101,16 +101,16 @@ const mostrarFooter = () => {
     if (Object.keys(carrito).length === 0){
         footer.innerHTML = `
         <th scope="row" colspan="5">Carrito Vacio</th>
-        `    
+        `
         return
-    }   
+    }
     const nCantidad = Object.values(carrito).reduce((acc, {cantidad}) => acc + cantidad,0)
     const nPrecio = Object.values(carrito).reduce((acc, {cantidad, precio}) => acc + precio * cantidad,0)
     //console.log(nPrecio)
 
     templateFooter.querySelectorAll('td')[0].textContent = nCantidad
     templateFooter.querySelector('span').textContent = nPrecio
-    
+
     const clone = templateFooter.cloneNode(true)
     fragment.appendChild(clone)
     footer.appendChild(fragment)
@@ -119,7 +119,7 @@ const mostrarFooter = () => {
     btnVaciar.addEventListener("click", () => {
         carrito = {}
         mostrarCarrito()
-    }) 
+    })
 }
 
 const setCarrito = objeto => {
@@ -128,7 +128,7 @@ const setCarrito = objeto => {
         nombre: objeto.querySelector("h1").textContent,
         precio: objeto.querySelector("h3").textContent,
         cantidad: 1
-    }    
+    }
     if(carrito.hasOwnProperty(producto.id)){
         producto.cantidad = carrito[producto.id].cantidad + 1
     }
@@ -176,7 +176,7 @@ const mostrarBoleta = () => {
 
     boletaContainer.appendChild(clone);
     const btnAgregarBoleta = document.getElementById('btn-agregar-boleta');
-    btnAgregarBoleta.addEventListener("click", agregarBoleta);  
+    btnAgregarBoleta.addEventListener("click", agregarBoleta);
 };
 
 const agregarBoleta = async () => {
@@ -211,4 +211,3 @@ const agregarBoleta = async () => {
         console.error("Error en la solicitud:", error);
     }
 };
-
