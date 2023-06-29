@@ -40,7 +40,6 @@ items.addEventListener("click", e =>{
 
 const mostrarBodega = data => {
     data.productos.forEach(producto => {
-        console.log(producto);
         templateCard.querySelector('h1').textContent = producto.nombre;
         templateCard.querySelector('h3').textContent = producto.precio;
         templateCard.querySelector('p').textContent = producto.subcategoria;
@@ -183,12 +182,14 @@ const agregarBoleta = async () => {
     const idBoleta = document.getElementById("id-boleta").textContent;
     const fechaBoleta = document.getElementById("fecha-boleta").textContent;
     const productos = document.getElementById("boleta-items").textContent;
+    const sucursal = document.getElementById("boleta-sucursal").value; // Obtener el valor seleccionado
     const total = document.getElementById("boleta-total").textContent;
 
     const data = {
         idBoleta,
         fechaBoleta,
-        productos,
+        sucursal,
+        productos,  
         total
     };
     console.log(data);

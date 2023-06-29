@@ -1,5 +1,5 @@
 from database.db import get_connection
-from .entities.Productos import Producto, Saludo
+from .entities.Productos import Producto, Boleta, BoletaBodega
 import base64
 
 class ProductoModel:
@@ -72,26 +72,6 @@ class ProductoModel:
             return affected_rows
         except Exception as ex:
             raise Exception(ex)
-    
-    @classmethod
-    def add_saludo(self, Saludo):
-        try:
-            connection = get_connection()
-            with connection.cursor() as cursor:
-                cursor.execute(
-                    """INSERT INTO public.saludo("fechaSaludo", "saludo")
-	                    VALUES (%s, %s);""",
-                    (
-                        Saludo.fechaSaludo,
-                        Saludo.Saludos,
-                    ),
-                )
-                affected_rows = cursor.rowcount
-                connection.commit()
-            connection.close()
-            return affected_rows
-        except Exception as ex:
-            raise Exception(ex)
 
     @classmethod
     def delete_producto(self, idProductos):
@@ -111,34 +91,6 @@ class ProductoModel:
         except Exception as ex:
             raise Exception(ex)
         
-
-
-    @classmethod
-    def update_producto(self, Producto):
-        try:
-            connection = get_connection()
-            with connection.cursor() as cursor:
-                cursor.execute(
-                    """UPDATE public.productos
-	                        SET nombre=%s, precio=%s, descripcion=%s, imagen=%s, stock=%s, categoria=%s
-	                        WHERE "idProductos"=%s;""",
-                    (
-                        Producto.Nombre,
-                        Producto.Precio,
-                        Producto.Descripcion,
-                        Producto.Imagen,
-                        Producto.idProductos,
-                        Producto.Stock,
-                        Producto.Categoria,
-                    ),
-                )
-                affected_rows = cursor.rowcount
-                connection.commit()
-            connection.close()
-            return affected_rows
-        except Exception as ex:
-            raise Exception(ex)
-
     @classmethod
     def add_boleta(self, Boleta):
             try:
@@ -163,3 +115,49 @@ class ProductoModel:
                 return affected_rows
             except Exception as ex:
                 raise Exception(ex)
+            
+    @classmethod
+    def add_boletaBodega(self, BoletaBodega):
+            try:
+                connection = get_connection()
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        """INSERT INTO public."boletaBodega"(
+                            "idBoleta", sucursal, "fechaCompra", productos, total)
+                            VALUES (%s, %s, %s, %s, %s);""",
+                        (
+                            BoletaBodega.idBoleta,
+                            BoletaBodega.sucursal,
+                            BoletaBodega.fechaBoleta,
+                            BoletaBodega.productos,
+                            BoletaBodega.total,
+                        ),
+                    )
+                    affected_rows = cursor.rowcount
+                    connection.commit()
+                connection.close()
+                return affected_rows
+            except Exception as ex:
+                raise Exception(ex)
+
+    @classmethod
+    def get_boletaBodega(self):
+        try:
+            connection = get_connection()
+            productos = []
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    """SELECT "idBoleta", sucursal, "fechaCompra", productos, total
+                        FROM public."boletaBodega";"""
+                )
+                resultset = cursor.fetchall()
+
+                for row in resultset:
+                    boleta = BoletaBodega(row[0], row[1], row[2], row[3], row[4])
+                    productos.append(boleta)
+
+            connection.close()
+            return productos
+        except Exception as ex:
+            raise Exception(ex)
+

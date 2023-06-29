@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request, send_file, render_template
 from models.ProductoModel import ProductoModel
-from models.entities.Productos import Producto, Saludo, Boleta, BoletaBodega
+from models.entities.Productos import Producto, Boleta, BoletaBodega
 import os
 import base64
 import uuid
@@ -56,23 +56,6 @@ def get_imagen_producto(Nombre):
     except Exception as ex:
         print(str(ex))
         return jsonify({"mensaje": "Error al cargar la imagen"}), 500
-
-@main.route("/addSaludo", methods=["POST"])
-def add_saludo():
-    try:
-        fechaSaludo = datetime.now().strftime("%Y-%m-%d %H:%M:%S")  # Obtiene la fecha y hora actual
-        saludos = request.json["Saludos"]
-
-        saludo = Saludo(str(fechaSaludo), saludos)  # Convertir la fecha a tipo str
-
-        affected_rows = ProductoModel.add_saludo(saludo)
-
-        if affected_rows == 1:
-            return jsonify({"Fecha": fechaSaludo})  # Devuelve la fecha actual en la respuesta
-        else:
-            return jsonify({"Mensaje": "Fallo en la inserción"}), 500
-    except Exception as ex:
-        return jsonify({"Mensaje": str(ex)}), 500
 
 @main.route("/add", methods=["POST"])
 def add_producto():
@@ -178,11 +161,9 @@ def update_producto(idProductos):
 def obtenerBodega():
     url = "https://musicproocyberedge.onrender.com/api/productos"
     token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBydWViYSIsImlkIjoiNjQ4Njg1ZjNiMjY5Y2U3NGFiNGM3N2VlIiwiaWF0IjoxNjg2OTQzOTc1fQ.vr3jouIQaxSZ2zyELSc4c4r2ayKSPHWCthoZoODragg"
-
     headers = {
         "Auth-token": token
     }
-
     response = requests.get(url, headers=headers)
     data = response.json()
     return jsonify(productos=data)
@@ -214,9 +195,10 @@ def add_boletaBodega():
         idBoleta = request.json.get("idBoleta")
         productos = request.json.get("productos")
         fechaBoleta = request.json.get("fechaBoleta")
+        sucursal = request.json.get("sucursal")
         total = request.json.get("total")
 
-        boleta = BoletaBodega(idBoleta, productos, fechaBoleta, total)
+        boleta = BoletaBodega(idBoleta, sucursal, fechaBoleta, productos, total)
 
         affected_rows = ProductoModel.add_boletaBodega(boleta)
 
@@ -226,3 +208,12 @@ def add_boletaBodega():
             return jsonify({"Mensaje": "No existe"}), 500
     except Exception as ex:
         return jsonify({"Mensaje": str(ex)}), 500
+
+@main.route("/listarBodega")
+def get_boletaBodega():
+    try:
+        boletas = ProductoModel.get_boletaBodega()
+        boletas_json = [boleta.to_json_boletaBodega() for boleta in boletas]
+        return jsonify(boletas=boletas_json)
+    except Exception as ex:
+        return jsonify({"mensaje": str(ex)}), 500
