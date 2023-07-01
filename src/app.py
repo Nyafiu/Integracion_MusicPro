@@ -113,11 +113,11 @@ def login_user():
                     session['rol'] = account['rol']
                     return redirect(url_for('shop'))
                 else:
-                    flash('You are not authorized to access this page.')
+                    flash('No estás autorizado para acceder a esta página.')
             else:
-                flash('Incorrect username/password')
+                flash('Usuario/contraseña incorrectos')
         else:
-            flash('Incorrect username/password')
+            flash('Usuario/contraseña incorrectos')
 
     return render_template('login_user.html')
 
@@ -144,11 +144,11 @@ def login_admin():
                     session['rol'] = account['rol']
                     return redirect(url_for('admin'))
                 else:
-                    flash('You are not authorized to access this page.')
+                    flash('No estás autorizado para acceder a esta página.')
             else:
-                flash('Incorrect username/password')
+                flash('Usuario/contraseña incorrectos')
         else:
-            flash('Incorrect username/password')
+            flash('Usuario/contraseña incorrectos')
 
     return render_template('login_admin.html')
 
@@ -173,19 +173,19 @@ def register_user():
         account = cursor.fetchone()
 
         if account:
-            flash('Account already exists!')
+            flash('La cuenta ya existe!')
         elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
-            flash('Invalid email address!')
+            flash('Dirección de correo inválida!')
         elif not re.match(r'[A-Za-z0-9]+', username):
-            flash('Username must contain only characters and numbers!')
+            flash('Username sólo debe contener caracteres y números!')
         elif not username or not password or not email:
-            flash('Please fill out the form!')
+            flash('Por favor, completa el formulario')
         else:
             # Account doesn't exist and the form data is valid, insert new account into users table
             cursor.execute("INSERT INTO users (fullname, username, password, email, rol) VALUES (%s,%s,%s,%s,%s)",
                            (fullname, username, _hashed_password, email, rol))
             conn.commit()
-            flash('You have successfully registered as a user!')
+            flash('Te has registrado exitosamente!')
 
     return render_template('register_user.html')
 
@@ -210,19 +210,19 @@ def register_admin():
         account = cursor.fetchone()
 
         if account:
-            flash('Account already exists!')
+            flash('La cuenta ya existe!')
         elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
-            flash('Invalid email address!')
+            flash('Dirección de correo inválida!')
         elif not re.match(r'[A-Za-z0-9]+', username):
-            flash('Username must contain only characters and numbers!')
+            flash('Username sólo debe contener caracteres y números!')
         elif not username or not password or not email:
-            flash('Please fill out the form!')
+            flash('Por favor, completa el formulario')
         else:
             # Account doesn't exist and the form data is valid, insert new account into users table
             cursor.execute("INSERT INTO users (fullname, username, password, email, rol) VALUES (%s,%s,%s,%s,%s)",
                            (fullname, username, _hashed_password, email, rol))
             conn.commit()
-            flash('You have successfully registered as an admin!')
+            flash('Admin registrado exitosamente!')
 
     return render_template('register_admin.html')
 
@@ -295,16 +295,6 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/login")
-def login():
-    return render_template("loginCliente.html")
-
-
-@app.route("/loginAdmin")
-def loginAdmin():
-    return render_template("loginAdmin.html")
-
-
 @app.route("/admin")
 @admin_required
 def admin():
@@ -314,11 +304,6 @@ def admin():
 @app.route("/tables")
 def tables():
     return render_template("tables.html")
-
-
-@app.route("/registro")
-def registro():
-    return render_template("registroCliente.html")
 
 
 @app.route('/shop', methods=['GET', 'POST'])
