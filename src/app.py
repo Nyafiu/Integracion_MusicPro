@@ -385,4 +385,4 @@ if __name__ == "__main__":
     app.register_error_handler(404, error404)
     # Blueprint
     app.register_blueprint(Producto.main, url_prefix="/api/productos")
-    app.run(host='25.64.187.92', port=5000)
+    app.run()

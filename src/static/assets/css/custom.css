@@ -112,3 +112,44 @@ body {
     opacity: 1;
 }
 
+
+/* css seguimiento */
+
+.s {
+    background-color: #e3e5e7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+}
+
+.s1 {
+    max-width: 400px;
+    width: 100%;
+}
+
+.card{
+    align-items: center;
+    max-width: 800px;
+    border: 1px solid #333333;
+    border-radius: 15px!important;
+    padding: 20px;
+    margin: 0 auto; /* Agregamos esta línea para centrar la tarjeta */
+    background-color: #fff; /* Agregamos este estilo para tener un fondo blanco en la tarjeta */
+}
+
+.titulo {
+    text-align: center;
+    margin-bottom: 20px;
+
+    font-family: Poppins-Bold;
+    font-size: 24px;
+    color: #333333;
+    line-height: 1.2;
+}
+
+.subtitulo{
+    text-align: center;
+    font-size: 16px;
+}

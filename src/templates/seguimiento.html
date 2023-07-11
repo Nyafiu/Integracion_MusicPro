@@ -3,13 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Seguimiento</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/custom.css') }}">
+
+    
+    <!-- elementos template -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/util.css') }}">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
-<body>
-    <h1>Codigo de Seguimiento</h1>
-    <input type="text" id="idSeguimiento">
-    <button id="btn-seguir">Seguimiento</button>
+<body class="s">
+    <div class="container s1">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="titulo">Revisa el estado de tu pedido</h1>
+                <p class="subtitulo">Ingresa el código de seguimiento adjunto en la boleta de tu compra</p>
+                <div class="row">
+                    <div class="col">
+                        <input type="text" style="width: 400px; text-align: center; padding: 10px!important;" 
+                        class="input100" placeholder="Código de seguimiento" id="idSeguimiento">
+                    </div>
+                    <div class="col">
+                        <button id="btn-seguir" class="login100-form-btn" style="max-width: 150px;">Buscar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <script src="../static/assets/js/seguimiento.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>
 </html>
