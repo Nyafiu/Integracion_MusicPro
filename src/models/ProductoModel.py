@@ -98,10 +98,12 @@ class ProductoModel:
                 with connection.cursor() as cursor:
                     cursor.execute(
                         """INSERT INTO public.boleta(
-                                "idBoleta", "domicilio", "productos", "fechaBoleta", "fechaEntrega", "total")
-                                VALUES (%s, %s, %s, %s, %s, %s);""",
+                                "idBoleta","nombre", "telefono", "domicilio", "productos", "fechaBoleta", "fechaEntrega", "total")
+                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s);""",
                         (
                             Boleta.idBoleta,
+                            Boleta.nombre,
+                            Boleta.telefono,
                             Boleta.domicilio,
                             Boleta.productos,
                             Boleta.fechaBoleta,

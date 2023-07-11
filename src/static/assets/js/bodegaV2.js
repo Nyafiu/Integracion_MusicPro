@@ -49,6 +49,7 @@ const mostrarBodega = data => {
         fragment.appendChild(clone);
     });
     cards.appendChild(fragment);
+    console.log(data)
 };
 
 function generarIdAleatoria(longitud) {

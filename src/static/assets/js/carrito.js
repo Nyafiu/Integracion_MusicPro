@@ -172,7 +172,13 @@ const mostrarBoleta = () => {
 
     boletaContainer.appendChild(clone);
     const btnAgregarBoleta = document.getElementById('btn-agregar-boleta');
-    btnAgregarBoleta.addEventListener("click", agregarBoleta);
+    btnAgregarBoleta.addEventListener("click", function() {
+        agregarBoleta();
+        enviarDatos();
+    });
+    
+    /*const btnSeguimiento = document.getElementById('btn-seguimiento')
+    btnSeguimiento.addEventListener("click", enviarDatos)*/
 
 };
 
@@ -182,17 +188,20 @@ const agregarBoleta = async () => {
     const fechaBoleta = document.getElementById("fecha-boleta").textContent;
     const fechaEntrega = document.getElementById("fecha-entrega").textContent;
     const productos = document.getElementById("boleta-items").textContent;
+    const telefono = document.getElementById("telefono-boleta").value;
+    const nombre = document.getElementById("nombre-boleta").value;
     const total = document.getElementById("boleta-total").textContent;
 
     const data = {
         idBoleta,
+        nombre,
+        telefono,
         domicilio,
         fechaBoleta,
         fechaEntrega,
         productos,
         total
-    };
-    console.log(data)
+    }
 
     try {
         const response = await fetch("/api/productos/addBoleta", {
@@ -202,8 +211,37 @@ const agregarBoleta = async () => {
             },
             body: JSON.stringify(data)
         });
-
     } catch (error) {
         console.error("Error en la solicitud:", error);
+    }
+};
+
+const enviarDatos = async () => {
+    const urlApiExterna = 'http://25.2.54.205/cybercore/api/pedidosapi_sucursal.php/pedidos';
+
+    // Crear un objeto FormData y agregar los datos
+    const formData = new FormData();
+    formData.append('nombre_origen', 'Music Pro');
+    formData.append('direccion_origen', 'Puente alto');
+    formData.append('celular_origen', '222111222');
+    formData.append('nombre_destino', document.getElementById("nombre-boleta").value);
+    formData.append('direccion_destino', document.getElementById("domicilio-boleta").textContent);
+    formData.append('celular_destino', document.getElementById("telefono-boleta").value);
+    formData.append('obs', document.getElementById("boleta-items").textContent);
+
+    try {
+        const response = await fetch(urlApiExterna, {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            const responseData = await response.json();
+            alert(JSON.stringify("Gracias por su compra! Codigo de seguimiento: "+responseData.codigo_seguimiento));
+        } else {
+            throw new Error('Error en la solicitud');
+        }
+    } catch (error) {
+        console.error('Error en la solicitud:', error);
     }
 };

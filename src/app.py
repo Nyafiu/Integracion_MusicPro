@@ -289,6 +289,9 @@ def obtener_saludo():
 def apiPrueba():
     return render_template("apiSaludo.html")
 
+@app.route("/seguimiento")
+def seguimiento():
+    return render_template("seguimiento.html")
 
 @app.route("/")
 def index():

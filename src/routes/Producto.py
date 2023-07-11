@@ -176,9 +176,11 @@ def add_boleta():
         productos = request.json.get("productos")
         fechaBoleta = request.json.get("fechaBoleta")  # Corregido aquí
         fechaEntrega = request.json.get("fechaEntrega")
+        telefono = request.json.get("telefono")
+        nombre = request.json.get("nombre")
         total = request.json.get("total")
 
-        boleta = Boleta(idBoleta, domicilio, productos, fechaBoleta, fechaEntrega, total)
+        boleta = Boleta(idBoleta, domicilio, productos, fechaBoleta, fechaEntrega, telefono, nombre, total)
 
         affected_rows = ProductoModel.add_boleta(boleta)
 
@@ -217,3 +219,59 @@ def get_boletaBodega():
         return jsonify(boletas=boletas_json)
     except Exception as ex:
         return jsonify({"mensaje": str(ex)}), 500
+
+@main.route('/transporte', methods=['POST'])
+def enviar_datos():
+    url_api_externa = 'http://25.2.54.205/cybercore/api/pedidosapi_sucursal.php/pedidos'
+
+    # Obtener los datos del formulario o la solicitud JSON
+    nombre_origen = request.form.get('nombre_origen')
+    direccion_origen = request.form.get('direccion_origen')
+    celular_origen = request.form.get('celular_origen')
+    nombre_destino = request.form.get('nombre_destino')
+    direccion_destino = request.form.get('direccion_destino')
+    celular_destino = request.form.get('celular_destino')
+    obs = request.form.get('obs')
+
+    # Crear un diccionario con los datos a enviar en el orden correcto
+    datos = {
+        'nombre_origen': nombre_origen,
+        'direccion_origen': direccion_origen,
+        'celular_origen': celular_origen,
+        'nombre_destino': nombre_destino,
+        'direccion_destino': direccion_destino,
+        'celular_destino': celular_destino,
+        'obs': obs
+    }
+
+    try:
+        response = requests.post(url_api_externa, data=datos)
+        
+        if response.status_code == 200:
+            orden_seguimiento = response.json()
+            return jsonify(orden_seguimiento)
+        else:
+            return 'Error al enviar los datos a la API externa'
+
+    except requests.exceptions.RequestException as e:
+        return 'Error al conectarse a la API externa: ' + str(e)
+    
+@main.route('/seguimiento/<codigo_seguimiento>', methods=['GET'])
+def obtener_estado_pedido(codigo_seguimiento):
+    url_api_externa = 'http://25.2.54.205/cybercore/api/codigo_seguimientoAPI.php'
+    # Crear un diccionario con el código de seguimiento
+    datos = {
+        'codigo_seguimiento': codigo_seguimiento
+    }
+    try:
+        response = requests.get(url_api_externa, params=datos)
+
+        if response.status_code == 200:
+            estado_pedido = response.json().get('estado_pedido')
+            return jsonify({'estado_pedido': estado_pedido})
+        else:
+            return 'Error al obtener el estado del pedido de la API externa'
+    except requests.exceptions.RequestException as e:
+        return 'Error al conectarse a la API externa: ' + str(e)
+
+
