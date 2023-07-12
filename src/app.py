@@ -248,7 +248,7 @@ def profile():
     return redirect(url_for('login'))
 
 
-@app.route('/admin/profile')
+@app.route('/admin_profile')
 @admin_required
 def admin_profile():
     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
