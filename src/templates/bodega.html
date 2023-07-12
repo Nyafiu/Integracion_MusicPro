@@ -7,16 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventario de Bodega</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
-    <link rel="stylesheet" href="../static/assets/css/bodega.css">
+          <link rel="stylesheet" href="../static/assets/css/bodega.css"
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 </head>
 
 <body>
 
-<nav class="navbar bg-dark">
+<nav class="navbar bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" href="{{ url_for('index') }}">
-      <img src="{{ url_for('static', filename='assets/img/music_pro.png') }}" alt="Logo" width="60" height="60" class="d-inline-block align-text-center invert">
+      <img src="{{ url_for('static', filename='assets/img/music_pro.png') }}" alt="Logo" width="60" height="60" class="invert d-inline-block align-text-center -inverse">
       Bodega
     </a>
   </div>
