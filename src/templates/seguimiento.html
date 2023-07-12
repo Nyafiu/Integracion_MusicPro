@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/custom.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/seguimiento.css') }}">
 
-    
+
     <!-- elementos template -->
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/util.css') }}">
@@ -23,13 +23,14 @@
                 <p class="subtitulo">Ingresa el código de seguimiento adjunto en la boleta de tu compra</p>
                 <div class="row">
                     <div class="col">
-                        <input type="text" style="width: 400px; text-align: center; padding: 10px!important;" 
+                        <input type="text" style="width: 400px; text-align: center; padding: 10px!important;"
                         class="input100" placeholder="Código de seguimiento" id="idSeguimiento">
                     </div>
                     <div class="col">
                         <button id="btn-seguir" class="login100-form-btn" style="max-width: 150px;">Buscar</button>
                     </div>
                 </div>
+                <button class="btn btn-dark mx-auto" onclick="location.href='{{ url_for('index') }}'" style="margin-top: 20px; display: block;">Volver al Index</button>
             </div>
         </div>
     </div>
