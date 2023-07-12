@@ -6,6 +6,7 @@
     <title>Seguimiento</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/custom.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/seguimiento.css') }}">
 
     
     <!-- elementos template -->
@@ -32,6 +33,53 @@
             </div>
         </div>
     </div>
+
+    <div class="modal" tabindex="-1" id="modalEstadoPedido">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Estado del pedido</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+<div class="modal-body">
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <div class="step complete" id="step1">
+                    <div class="icon">✓</div>
+                    <div class="label">Preparando</div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="step" id="step2">
+                    <div class="icon">✓</div>
+                    <div class="label">Asignado</div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="step" id="step3">
+                    <div class="icon">✓</div>
+                    <div class="label">Pedido Tomado</div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="step" id="step4">
+                    <div class="icon">✓</div>
+                    <div class="label">Pedido Finalizado</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
     <script src="../static/assets/js/seguimiento.js"></script>

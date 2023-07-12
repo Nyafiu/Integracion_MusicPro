@@ -5,40 +5,52 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Inventario de Bodega</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    <link rel="stylesheet" href="../static/assets/css/bodega.css">
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 </head>
 
 <body>
 
-    <div class="container mt-4">
-        <h1 class="text-center">Datos de la Bodega</h1>
-        <ul id="bodega-list" class="list-group mb-4"></ul>
+<nav class="navbar bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{{ url_for('index') }}">
+      <img src="{{ url_for('static', filename='assets/img/music_pro.png') }}" alt="Logo" width="60" height="60" class="d-inline-block align-text-center invert">
+      Bodega
+    </a>
+  </div>
+</nav>
 
-        <h1 class="text-center">Carrito</h1>
-        <hr>
-        <table class="table table-striped">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Producto</th>
-                    <th scope="col">Cantidad</th>
-                    <th scope="col">Accion</th>
-                    <th scope="col">Total</th>
-                </tr>
-            </thead>
-            <tbody id="items"></tbody>
-            <tfoot>
-                <tr id="footer">
-                    <th scope="row" colspan="5" class="text-center">Carrito Vacio</th>
-                </tr>
-            </tfoot>
-        </table>
-        <div class="row" id="cards"></div>
+
+            <div class="col-md-12">
+                <ul id="bodega-list" class="list-group mb-4"></ul>
+
+                <h1 class="text-center mb-4">Carrito</h1>
+                <hr>
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Accion</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="items"></tbody>
+                    <tfoot>
+                        <tr id="footer">
+                            <th scope="row" colspan="5" class="text-center">Carrito Vacio</th>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div class="row" id="cards"></div>
+            </div>
+        </div>
     </div>
 
-    <div class="container" id="boleta"></div>
+    <div class="container mt-4" id="boleta"></div>
 
     <div class="row" id="cards">
         <template id="template-card">
@@ -108,7 +120,6 @@
             <td>
                 <button id="btn-agregar-boleta" class="btn btn-success">Agregar Boleta</button>
             </td>
-        </div>
     </template>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
